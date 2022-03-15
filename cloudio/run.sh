@@ -20,9 +20,9 @@ cat /data/options.json
 
 client_id=$(cat /data/options.json | jq -r ".client_id")
 hassio_ip=$(cat /data/options.json | jq -r ".hassio_ip")
-cloud_hostname='cloud.bokov.msk.ru'
-cloud_username='debian'
-cloud_ssh_port=22
+cloud_hostname='cloud.uzvhost.ru'
+cloud_username='cloudio'
+cloud_ssh_port=722
 control_port=$((client_id))
 monitor_port=$((control_port+1))
 
