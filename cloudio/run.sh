@@ -1,6 +1,5 @@
 #!/usr/bin/with-contenv bashio
 
-
 # Generate key
 KEY_PATH=/data/ssh_keys
 if [ ! -d "$KEY_PATH" ]; then

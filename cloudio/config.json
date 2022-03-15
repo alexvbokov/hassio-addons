@@ -1,6 +1,6 @@
 {
   "name": "cloud_io",
-  "version": "1.0",
+  "version": "1.01",
   "slug": "cloud_io",
   "description": "cloud.io help access hass.io from outside (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
