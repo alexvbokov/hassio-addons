@@ -1,0 +1,17 @@
+{
+  "name": "cloud_io",
+  "version": "1.0",
+  "slug": "cloud_io",
+  "description": "cloud.io help access hass.io from outside (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": { 
+  	"client_id": 23456,
+    "hassio_ip": "192.168.0.100"
+	},
+  "schema": { 
+  	"client_id": "int",
+    "hassio_ip": "str"
+	}
+}
