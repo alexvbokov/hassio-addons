@@ -18,5 +18,5 @@ schema:
   hassio_ip: str?
 slug: cloud_io
 startup: services
-url: https://github.com/hassio-addons/addon-aircast
+url: https://github.com/alexvbokov/hassio-addons
 version: 1.03
