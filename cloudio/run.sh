@@ -16,8 +16,6 @@ cat "${KEY_PATH}/autossh_ed25519.pub"
 
 echo "[INFO] json config is:"
 cat /data/options.json 
-echo "[INFO] yaml config is:"
-cat /data/options.yaml 
 
 
 client_id=$(cat /data/options.json | jq -r ".client_id")
