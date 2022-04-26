@@ -3,7 +3,6 @@
 import os
 import sys
 import math
-from datetime import datetime
 import json
 import urllib.request
 import requests
@@ -11,6 +10,7 @@ import requests
 
 def timestamp(seconds=None):
     from datetime import datetime
+    import time
     if seconds is None:
         seconds = time.time()
     return datetime.fromtimestamp(seconds).strftime("%Y-%m-%d,%H:%M:%S")
