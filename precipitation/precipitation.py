@@ -1,5 +1,7 @@
 # rain & precipitations volume for hass.io (с) Alex Bokov 2021-2022
 
+print( "begin 1...." )
+
 import os
 import sys
 import math
@@ -8,7 +10,7 @@ import json
 import urllib.request
 import requests
 
-print( "begin...." )
+print( "begin 2...." )
 
 def timestamp(seconds=None):
     from datetime import datetime
