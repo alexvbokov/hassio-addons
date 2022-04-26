@@ -3,4 +3,5 @@
 #while true; do 
 echo "pre-run..."
 python3 /precipitation.py
+echo "post-run..."
 #; done
