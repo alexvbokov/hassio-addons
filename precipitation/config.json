@@ -1,0 +1,11 @@
+{
+  "name": "Precipitation",
+  "version": "1",
+  "slug": "precipitation",
+  "description": "precipitation - rain and snow amount (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": { "lat":"56.2062", "lon":"37.7987", "api_key":"8f093e433c0c2b70df025f186097d63d", "hassio_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkYTg1Y2QyNTU3YzY0MGU0YmRjZmQ2NzNiYmIzNDFjNSIsImlhdCI6MTYwODI5OTYzMywiZXhwIjoxOTIzNjU5NjMzfQ.dy6asQ0LuDZnm0qgeeZSwKv772hyBZvh4x_Zj3sEokw" },
+  "schema":  { "lat":"str", "lon":"str", "api_key":"str", "hassio_token":"str" }
+}
