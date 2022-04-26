@@ -4,7 +4,7 @@ arch:
 - armv7
 - i386
 codenotary: alexvbokov@gmail.com
-description: precipitation - rain and snow amount (с) Alex Bokov
+description: precipitation - calc rain and snow amount (с) Alex Bokov
 hassio_api: true
 host_network: true
 map:
