@@ -122,7 +122,7 @@ def check_precipitations():
                 precipitations_quantity[ i ] += weather[i]["snow"]
             if "rain" in weather[i]:
                 precipitations_quantity[ i ] += weather[i]["rain"]
-        print( timestamp() + precipitations_quantity, flush=True )
+        print( timestamp() + str( precipitations_quantity ), flush=True )
     return ( precipitations_quantity is not None )
         # report_to_hassio()
 
