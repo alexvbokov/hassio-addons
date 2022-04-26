@@ -8,6 +8,7 @@ import json
 import urllib.request
 import requests
 
+print( "begin...." )
 
 def timestamp(seconds=None):
     from datetime import datetime
@@ -25,6 +26,7 @@ def second():
 
 print( "precipitation (c)Alex Bokov 2021-2022 v1.1")
 #config = {'lat':'56.2062', 'lon':'37.7987', 'api_key':'8f093e433c0c2b70df025f186097d63d', "hassio_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkYTg1Y2QyNTU3YzY0MGU0YmRjZmQ2NzNiYmIzNDFjNSIsImlhdCI6MTYwODI5OTYzMywiZXhwIjoxOTIzNjU5NjMzfQ.dy6asQ0LuDZnm0qgeeZSwKv772hyBZvh4x_Zj3sEokw" }
+config = {}
 try:
     with open( '/data/options.json', 'r') as config_file:
         config = json.load(config_file)
