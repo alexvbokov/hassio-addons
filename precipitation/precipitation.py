@@ -131,9 +131,13 @@ def check_precipitations():
 check_precipitations()
 
 
+progress_bar = "  ··°°ººooooºº°°··  "
 while True:
     if check_precipitations():
         report_to_hassio()
 
-    while second() != 0:
+    while second() != 0:     # wait until minute start
+        print(progress_bar[second() % 20],flush=True,end="")
         time.sleep(1)
+    print()
+    time.sleep(1)
