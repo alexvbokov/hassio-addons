@@ -44,6 +44,18 @@ week_day = [ "пн","вт","ср","чт","пт","сб","вс" ]
 
 
 def report_to_hassio():
+
+    def report_precipitations( entity_id, friendly_name, value ):
+        try:
+            response = requests.post(
+                "http://"+config['hassio_ip']+":8123/api/states/sensor."+entity_id,
+                headers={ "Authorization": "Bearer "+config['hassio_token'], "content-type": "application/json" },
+                data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": "", "icon": icon } })
+            )
+        except:
+            print( timestamp() + "failed reporting to hassio", flush=True )
+
+
     if precipitations_quantity is not None:
 
         try:
@@ -67,18 +79,9 @@ def report_to_hassio():
             if "13" in weather_icons[i]: icon = "mdi:weather-snowy"         # snow
             if "50" in weather_icons[i]: icon = "mdi:weather-fog"           # mist
             if i == 0 :
-                entity_id = "precipitations"
-            else:
-                entity_id = "precipitations"+str(i)
-            try:
-                response = requests.post(
-                    "http://"+config['hassio_ip']+":8123/api/states/sensor."+entity_id,
-                    headers={ "Authorization": "Bearer "+config['hassio_token'], "content-type": "application/json" },
-                    data=json.dumps({ "state": value, "attributes": {"friendly_name": dates[i], "unit_of_measurement": "", "icon": icon } })
-                )
-            except:
-                print( timestamp() + "failed reporting to hassio", flush=True )
-            # print( response.text )
+                report_precipitations( "precipitations", "precipitations", value )
+            report_precipitations( "precipitations"+str(i), dates[i], value )
+
 
 def hassio_family_is_home():
     try:
