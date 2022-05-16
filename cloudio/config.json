@@ -3,7 +3,7 @@
   "version": "1.01",
   "slug": "cloud_io",
   "hassio_role": "default",
-  "description": "cloud.io help access hass.io from outside (с) Alex Bokov",
+  "description": "cloud.io //hassio_role: default// help access hass.io from outside (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
