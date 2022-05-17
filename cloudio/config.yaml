@@ -4,7 +4,7 @@ arch:
 - armv7
 - i386
 codenotary: alexvbokov@gmail.com
-description: cloud.io --hassio_role: default-- help access hass.io from outside (с) Alex Bokov
+description: cloud.io v1.1 help access hass.io from outside (с) Alex Bokov
 hassio_api: true
 hassio_role: default
 init: false
@@ -21,4 +21,4 @@ schema:
 slug: cloud_io
 startup: services
 url: https://github.com/alexvbokov/hassio-addons
-version: 1.03
+version: 1.1
