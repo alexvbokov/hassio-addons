@@ -7,6 +7,7 @@ codenotary: alexvbokov@gmail.com
 description: cloud.io --hassio_role: default-- help access hass.io from outside (с) Alex Bokov
 hassio_api: true
 hassio_role: default
+init: false
 host_network: true
 map:
 - config:rw
