@@ -6,6 +6,7 @@ arch:
 codenotary: alexvbokov@gmail.com
 description: precipitation - calc rain and snow amount (с) Alex Bokov
 hassio_api: true
+init: false
 host_network: true
 map:
 - config:rw
@@ -21,4 +22,4 @@ schema:
 slug: precipitation
 startup: services
 url: https://github.com/alexvbokov/hassio-addons
-version: 1.21
+version: 1.22
