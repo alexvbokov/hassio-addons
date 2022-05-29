@@ -14,15 +14,11 @@ options:
   lat: "56.2062"
   lon: "37.7987"
   api_key: "8f093e433c0c2b70df025f186097d63d"
-  hassio_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkYTg1Y2QyNTU3YzY0MGU0YmRjZmQ2NzNiYmIzNDFjNSIsImlhdCI6MTYwODI5OTYzMywiZXhwIjoxOTIzNjU5NjMzfQ.dy6asQ0LuDZnm0qgeeZSwKv772hyBZvh4x_Zj3sEokw"
-  hassio_ip: 192.168.0.100
 schema:
   lat: str
   lon: str
   api_key: str
-  hassio_token: str
-  hassio_ip: str
 slug: precipitation
 startup: services
 url: https://github.com/alexvbokov/hassio-addons
-version: 1.2
+version: 1.21

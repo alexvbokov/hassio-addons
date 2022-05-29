@@ -45,11 +45,13 @@ week_day = [ "пн","вт","ср","чт","пт","сб","вс" ]
 
 def report_to_hassio():
 
+    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+
     def report_precipitations( entity_id, friendly_name, value ):
         try:
             response = requests.post(
-                "http://"+config['hassio_ip']+":8123/api/states/sensor."+entity_id,
-                headers={ "Authorization": "Bearer "+config['hassio_token'], "content-type": "application/json" },
+                "http://supervisor/core/api/states/sensor."+entity_id,
+                headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" },
                 data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": "", "icon": icon } })
             )
         except:
@@ -60,8 +62,8 @@ def report_to_hassio():
 
         try:
             response = requests.post(
-                "http://"+config['hassio_ip']+":8123/api/states/sensor."+"precipitations_since_home",
-                headers={ "Authorization": "Bearer "+config['hassio_token'], "content-type": "application/json" },
+                "http://supervisor/core/api/states/sensor."+"precipitations_since_home",
+                headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" },
                 data=json.dumps({ "state": round( precipitations_since_home, 1 ), "attributes": {"friendly_name": "precipitations since home", "unit_of_measurement": "mm", "icon": "mdi:weather-snowy" } })
             )
         except:
@@ -84,8 +86,9 @@ def report_to_hassio():
 
 
 def hassio_family_is_home():
+    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
-        response = requests.get( "http://"+config['hassio_ip']+":8123/api/states/group.family", headers={ "Authorization": "Bearer "+config['hassio_token'], "content-type": "application/json" } ).text
+        response = requests.get( "http://supervisor/core/api/states/group.family", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
     except:
         response = '{ "state":"home" }'
     return ( not json.loads(response)["state"] == 'not_home' )
