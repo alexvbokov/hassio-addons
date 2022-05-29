@@ -22,4 +22,4 @@ schema:
 slug: precipitation
 startup: services
 url: https://github.com/alexvbokov/hassio-addons
-version: 1.22
+version: 1.23

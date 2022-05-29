@@ -89,6 +89,7 @@ def hassio_family_is_home():
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
         response = requests.get( "http://supervisor/core/api/states/group.family", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
+        print( "hassio_family_is_home: ", response )
     except:
         response = '{ "state":"home" }'
     return ( not json.loads(response)["state"] == 'not_home' )
