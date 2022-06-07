@@ -61,6 +61,16 @@ average_temp = None                         # outside average 7:00-23:00
 house_heater_on = False
 
 
+def hassio_get_lat_lng():
+    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+    try:
+        response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+token, "content-type": "application/json" } ).text
+        lat = json.loads(response)["attributes"]["latitude"]
+        lng = json.loads(response)["attributes"]["longitude"]
+    except:
+        lat = 55.7558
+        lng = 37.6173       # moscow center
+    return lat, lng
 def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
@@ -151,8 +161,8 @@ def estimated_delta():
     else:
         return 8
 def average_for_day(tm):
-    lat = config["lat"]
-    lon = config["lon"]
+    lat, lon = hassio_get_lan_lng()
+    print( timestamp() + " %f, %f " % (lat,lon), flush=True )
     api_key = config["api_key"]
     if tm <= time.time():
         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + lat + "&lon=" + lon + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]

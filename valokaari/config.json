@@ -1,6 +1,6 @@
 {
   "name": "valokaari",
-  "version": "1.122",
+  "version": "1.123",
   "slug": "valokaari",
   "init": "false",
   "homeassistant_api": "true",
@@ -26,7 +26,6 @@
     "will_come_tomorrow": "input_boolean.will_come_tomorrow",
     "group_family": "group.family",
     "climate": "climate.house_min_temp",
-    "lat":"56.2062", "lon":"37.7987", 
     "api_key":"8f093e433c0c2b70df025f186097d63d"
   },
   "schema": { 
@@ -45,7 +44,6 @@
     "will_come_tomorrow": "str",
     "group_family": "str",
     "climate": "str",
-	"lat":"str", "lon":"str", 
     "api_key":"str"
   }
 }
