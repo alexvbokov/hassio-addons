@@ -1,0 +1,15 @@
+{
+  "name": "narodmon",
+  "version": "1.03",
+  "slug": "narodmon",
+  "init": "false",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "report house, house_upstairs, two heating pipes & outside temperature to narodmon.ru",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": {},
+  "schema": {}
+}
