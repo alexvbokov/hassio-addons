@@ -1,7 +1,9 @@
 #!/usr/bin/with-contenv bashio
 
 cat /data/options.json
-echo "pre-run..."
-while true; do python3 /precipitation.py; done
-echo "post-run..."
+echo "now running..."
+while ((1)); do 
+	python3 /precipitation.py && break
+done
+echo "finishing..."
 
