@@ -131,6 +131,17 @@ def check_precipitations():
     return ( precipitations_quantity is not None )
 
 
+count = 0
+while True :
+    try:
+        hassio_family_is_home()
+        break
+    except:
+        count += 1
+        if count > 100:
+            print( timestamp() + " tried connecting to hassio %d times, giving up ..." % count, flush=True )
+            sys.exit()
+
 check_precipitations()
 
 
