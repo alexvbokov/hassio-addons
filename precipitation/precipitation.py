@@ -150,6 +150,7 @@ while True :
         break
     except:
         count += 1
+        time.sleep(1)
         if count > 100:
             print( timestamp() + " tried connecting to hassio %d times, giving up ..." % count, flush=True )
             sys.exit()
