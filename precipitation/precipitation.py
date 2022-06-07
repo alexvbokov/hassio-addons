@@ -22,7 +22,19 @@ def minute():
 def second():
     return time.localtime()[5]
 
-print( "precipitation (c)Alex Bokov 2021-2022 v1.1", flush=True )
+
+try:
+    with open('/config.json', 'r') as config_file:
+        config = json.load(config_file)
+        version = config["version"]
+        description = config["description"]
+except IOError:
+    print(timestamp() + " no config.json")
+    version = "v.None"
+    description = ""
+
+print( "precipitation (c)Alex Bokov 2021-2022 " + version, flush=True )
+print( description )
 # config = {'lat':'56.2062', 'lon':'37.7987', 'api_key':'8f093e433c0c2b70df025f186097d63d', "hassio_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkYTg1Y2QyNTU3YzY0MGU0YmRjZmQ2NzNiYmIzNDFjNSIsImlhdCI6MTYwODI5OTYzMywiZXhwIjoxOTIzNjU5NjMzfQ.dy6asQ0LuDZnm0qgeeZSwKv772hyBZvh4x_Zj3sEokw" }
 config = {}
 try:
