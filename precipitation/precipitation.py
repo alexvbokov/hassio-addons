@@ -33,8 +33,6 @@ except IOError:
 print( timestamp() + " " + str(config), flush=True )
 
 
-# hassio_ip = "192.168.0.4"
-
 precipitations_quantity = None
 precipitations_checked_at = None
 precipitations_since_home = 0       # amount since family was home
@@ -134,7 +132,8 @@ def check_precipitations():
         # report_to_hassio()
 
 
-
+print( timestamp() + " 10 second pause...", flush=True )
+time.sleep(1)
 check_precipitations()
 
 
