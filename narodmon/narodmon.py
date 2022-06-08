@@ -56,6 +56,7 @@ device_mac = config['device mac']
 server_ip = config['server']
 sensor_list = json.loads(config['sensor list'])
 supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+print( json.dumps( sensor_list, indent=4 ), "\n" )
 
 
 count = 0
@@ -71,9 +72,9 @@ while True:
             print( response )
         #    response = urllib.request.urlopen(sensor['url']).read()
             data = json.loads(response)
-            print( data )
+        #    print( data )
             value = data['state']   # if data['state'] != -127.00 else None
-            print( value )
+        #    print( value )
         #    print( config_sensors[i]["name"] + ":" + str22f(value) )
         except:
             value = None
