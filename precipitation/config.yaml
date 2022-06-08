@@ -13,14 +13,10 @@ map:
 - config:rw
 name: precipitation
 options:
-  lat: "56.2062"
-  lon: "37.7987"
   api_key: "8f093e433c0c2b70df025f186097d63d"
 schema:
-  lat: str
-  lon: str
   api_key: str
 slug: precipitation
 startup: services
 url: https://github.com/alexvbokov/hassio-addons
-version: 1.29
+version: 1.30
