@@ -14,7 +14,7 @@
 	"server": "185.245.187.136",
 	"period": 300,
 	"device mac": "01:02:03:04:05:06",
-	"sensor list": '{ "outside_temp":"sensor.outdoor_temperature", "interior_temp":"sensor.house_temp" }'
+	"sensor list": "{ \"outside_temp\":\"sensor.outdoor_temperature\", \"interior_temp\":\"sensor.house_temp\" }"
   },
   "schema": {
 	"server": "str",
