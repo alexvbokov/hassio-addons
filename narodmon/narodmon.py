@@ -40,26 +40,13 @@ def watchdog():
         reboot_script()
 
 
-try:
-    with open('/config.json', 'r') as config_file:
-        config = json.load(config_file)
-        version = config["version"]
-        description = config["description"]
-except IOError:
-    print(timestamp() + " no config.json")
-    version = "v.None"
-    description = ""
-
-print( description )
-print( "(c)Alex Bokov 2021-2022 " + version, flush=True )
-
+print( "(c)Alex Bokov 2021-2022", flush=True )
 try:
     with open('/data/options.json', 'r') as options_file:
         config = json.load(options_file)
 except IOError:
     print(timestamp() + " no options.json, using defaults")
 print( json.dumps( config, indent=4 ), "\n" )
-
 
 
 program_start = time.time()
@@ -78,7 +65,7 @@ while True:
 
 
     request = "#" + config['device mac']
-    for sensor in config['sensor list']:
+    for sensor in json.loads(config['sensor list']):
         try:
             response = requests.get( "http://supervisor/core/api/states/"+config['sensor list'][sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
             print( response )
