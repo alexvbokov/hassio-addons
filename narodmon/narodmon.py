@@ -55,6 +55,7 @@ time_delta = config['period']
 device_mac = config['device mac']
 server_ip = config['server']
 sensor_list = json.loads(config['sensor list'])
+verbose = config['verbose']
 supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 print( json.dumps( sensor_list, indent=4 ), "\n" )
 
@@ -69,14 +70,12 @@ while True:
     for sensor in sensor_list:
         try:
             response = requests.get( "http://supervisor/core/api/states/"+sensor_list[sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
-            print( response )
-        #    response = urllib.request.urlopen(sensor['url']).read()
+            if verbose is True:
+                print( response )
             data = json.loads(response)
-        #    print( data )
             value = data['state'].replace('on','1').replace('off','0')
-        #    print( value )
-        #    print( config_sensors[i]["name"] + ":" + str22f(value) )
-
+            if verbose is True:
+                print( value )
         except:
             value = None
         if value is not None:

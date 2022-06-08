@@ -1,6 +1,6 @@
 {
   "name": "narodmon",
-  "version": "1.08",
+  "version": "1.09",
   "slug": "narodmon",
   "init": "false",
   "homeassistant_api": "true",
@@ -14,12 +14,14 @@
 	"server": "185.245.187.136",
 	"period": 300,
 	"device mac": "01:02:03:04:05:06",
-	"sensor list": "{ \"outside_temp\":\"sensor.outdoor_temperature\", \"interior_temp\":\"sensor.house_temp\" }"
+	"sensor list": "{ \"outside_temp\":\"sensor.outdoor_temperature\", \"interior_temp\":\"sensor.house_temp\" }",
+	"verbose": "True"
   },
   "schema": {
 	"server": "str",
 	"period": "int",
 	"device mac": "str",
-    "sensor list": "str"
+    "sensor list": "str",
+    "verbose": "bool"
   }
 }
