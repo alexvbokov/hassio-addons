@@ -101,7 +101,7 @@ while True:
 
     progress_bar = "   ···°°°ºººooooooººº°°°···   "
     while time.time() - time_reported < time_delta:
-        print(progress_bar[second() % 20],flush=True,end="")
+    #    print(progress_bar[second() % 20],flush=True,end="")
         time.sleep(3)
     print("")
 
