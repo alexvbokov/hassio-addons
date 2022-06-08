@@ -73,9 +73,10 @@ while True:
         #    response = urllib.request.urlopen(sensor['url']).read()
             data = json.loads(response)
         #    print( data )
-            value = data['state']   # if data['state'] != -127.00 else None
+            value = data['state'].replace('on','1').replace('off','0')
         #    print( value )
         #    print( config_sensors[i]["name"] + ":" + str22f(value) )
+
         except:
             value = None
         if value is not None:
