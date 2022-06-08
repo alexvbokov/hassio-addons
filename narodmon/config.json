@@ -1,15 +1,25 @@
 {
   "name": "narodmon",
-  "version": "1.03",
+  "version": "1.04",
   "slug": "narodmon",
   "init": "false",
   "homeassistant_api": "true",
   "hassio_api": "true",
   "hassio_role": "default",
-  "description": "report house, house_upstairs, two heating pipes & outside temperature to narodmon.ru",
+  "description": "report selected hassio sensors to narodmon.ru",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
-  "options": {},
-  "schema": {}
+  "options": {
+	"server": "185.245.187.136",
+	"period": 300,
+	"device mac": "01:02:03:04:05:06",
+	"sensor list": '{ "outside_temp":"sensor.outdoor_temperature", "interior_temp":"sensor.house_temp" }'
+  },
+  "schema": {
+	"server": "str",
+	"period": "int",
+	"device mac": "str",
+    "sensor list": "str"
+  }
 }

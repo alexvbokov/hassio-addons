@@ -9,19 +9,7 @@ import math
 import requests
 
 
-
-config_server = '185.245.187.136'   # narodmon.ru
-config_period = 300                 # seconds between reporting
-config_mac = 'ESP_E8DB84DE4F30'
-config_sensors = [
-    { "name": "28B4BE061720060D", "sensor_name": "sensor.house_temp" },
-    { "name": "28890DD21620060F", "sensor_name": "sensor.house_temp_upstairs" },
-    { "name": "28D640CF162006A5", "sensor_name": "sensor.outside_temp" },
-    { "name": "28DE8FC716200655", "sensor_name": "sensor.radiator_water_temp" },
-    { "name": "280E43DC1620063E", "sensor_name": "sensor.radiator_water_back_temp" }
-]
 supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-
 
 
 def timestamp(seconds=None):
@@ -41,8 +29,6 @@ def minute():
 def second():
     return time.localtime()[5]
 
-
-
 def reboot_script():
     print("doing reboot/exit...")
     os._exit( 0 )
@@ -54,17 +40,35 @@ def watchdog():
         reboot_script()
 
 
+try:
+    with open('/config.json', 'r') as config_file:
+        config = json.load(config_file)
+        version = config["version"]
+        description = config["description"]
+except IOError:
+    print(timestamp() + " no config.json")
+    version = "v.None"
+    description = ""
+
+print( description )
+print( "(c)Alex Bokov 2021-2022 " + version, flush=True )
+
+try:
+    with open('/data/options.json', 'r') as options_file:
+        config = json.load(options_file)
+except IOError:
+    print(timestamp() + " no options.json, using defaults")
+print( json.dumps( config, indent=4 ), "\n" )
+
+
 
 program_start = time.time()
 watchdog_timestamp = time.time()
 watchdog()      # init ones
 
-
 time_reported = time.time()
-time_delta = config_period
+time_delta = config['period']
 
-
-print( "report data to narodmon.ru (c)Alex Bokov 2021-2022 v1.1", flush=True )
 
 
 count = 0
@@ -73,16 +77,16 @@ while True:
     watchdog_timestamp = time.time()
 
 
-    request = "#" + config_mac
-    for sensor in config_sensors:
+    request = "#" + config['device mac']
+    for sensor in config['sensor list']:
         try:
-            response = requests.get( "http://supervisor/core/api/states/"+sensor['sensor_name'], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
-        #    print( response )
+            response = requests.get( "http://supervisor/core/api/states/"+config['sensor list'][sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
+            print( response )
         #    response = urllib.request.urlopen(sensor['url']).read()
             data = json.loads(response)
-        #    print( data )
+            print( data )
             value = data['state']   # if data['state'] != -127.00 else None
-        #    print( value )
+            print( value )
         #    print( config_sensors[i]["name"] + ":" + str22f(value) )
         except:
             value = None
@@ -90,19 +94,19 @@ while True:
             request += "\n#" + sensor["name"] + "#" + value
     request += "\n##"
 
-    if request != "#" + config_mac:
+    if request != "#" + config['device mac']:
         print(timestamp() + " " + request.replace("\n", " "))
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect((config_server, 8283))
+            sock.connect((config['server'], 8283))
             sock.send(request.encode("utf-8"))
             response = str(sock.recv(64))
             print(response)
             sock.close()
         except socket.error:
-            print(timestamp() + " error connecting to " + config_server)
+            print(timestamp() + " error connecting to " + config['server'])
     else:
-        print(timestamp() + " nothing to report to " + config_server)
+        print(timestamp() + " nothing to report to " + config['server'])
     time_reported = time.time()
 
 
