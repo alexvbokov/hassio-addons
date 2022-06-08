@@ -23,19 +23,7 @@ def second():
     return time.localtime()[5]
 
 
-try:
-    with open('/config.json', 'r') as config_file:
-        config = json.load(config_file)
-        version = config["version"]
-        description = config["description"]
-except IOError:
-    print(timestamp() + " no config.json")
-    version = "v.None"
-    description = ""
-
-print( "precipitation (c)Alex Bokov 2021-2022 " + version, flush=True )
-print( description )
-# config = {'lat':'56.2062', 'lon':'37.7987', 'api_key':'8f093e433c0c2b70df025f186097d63d', "hassio_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkYTg1Y2QyNTU3YzY0MGU0YmRjZmQ2NzNiYmIzNDFjNSIsImlhdCI6MTYwODI5OTYzMywiZXhwIjoxOTIzNjU5NjMzfQ.dy6asQ0LuDZnm0qgeeZSwKv772hyBZvh4x_Zj3sEokw" }
+print( "precipitation (c)Alex Bokov 2021-2022", flush=True )
 config = {}
 try:
     with open( '/data/options.json', 'r') as config_file:
@@ -65,7 +53,7 @@ def report_to_hassio():
                 data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": "", "icon": icon } })
             )
         except:
-            print( timestamp() + "failed reporting to hassio", flush=True )
+            print( timestamp() + " failed reporting to hassio", flush=True )
 
 
     if precipitations_quantity is not None:
@@ -77,7 +65,7 @@ def report_to_hassio():
                 data=json.dumps({ "state": round( precipitations_since_home, 1 ), "attributes": {"friendly_name": "precipitations since home", "unit_of_measurement": "mm", "icon": "mdi:weather-snowy" } })
             )
         except:
-            print( timestamp() + "failed reporting to hassio", flush=True )
+            print( timestamp() + " failed reporting to hassio", flush=True )
 
         for i in range(8):
             value = round( precipitations_quantity[i], 1 )
