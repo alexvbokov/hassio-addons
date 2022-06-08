@@ -9,9 +9,6 @@ import math
 import requests
 
 
-supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-
-
 def timestamp(seconds=None):
     from datetime import datetime
     if seconds is None:
@@ -55,7 +52,10 @@ watchdog()      # init ones
 
 time_reported = time.time()
 time_delta = config['period']
-
+device_mac = config['device mac']
+server_ip = config['server']
+sensor_list = json.loads(config['sensor list'])
+supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 
 
 count = 0
@@ -64,10 +64,10 @@ while True:
     watchdog_timestamp = time.time()
 
 
-    request = "#" + config['device mac']
-    for sensor in json.loads(config['sensor list']):
+    request = "#" + device_mac
+    for sensor in sensor_list:
         try:
-            response = requests.get( "http://supervisor/core/api/states/"+config['sensor list'][sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
+            response = requests.get( "http://supervisor/core/api/states/"+sensor_list[sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
             print( response )
         #    response = urllib.request.urlopen(sensor['url']).read()
             data = json.loads(response)
@@ -78,22 +78,22 @@ while True:
         except:
             value = None
         if value is not None:
-            request += "\n#" + sensor["name"] + "#" + value
+            request += "\n#" + sensor + "#" + value
     request += "\n##"
 
-    if request != "#" + config['device mac']:
+    if request != "#" + device_mac:
         print(timestamp() + " " + request.replace("\n", " "))
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect((config['server'], 8283))
+            sock.connect((server_ip, 8283))
             sock.send(request.encode("utf-8"))
             response = str(sock.recv(64))
             print(response)
             sock.close()
         except socket.error:
-            print(timestamp() + " error connecting to " + config['server'])
+            print(timestamp() + " error connecting to " + server_ip)
     else:
-        print(timestamp() + " nothing to report to " + config['server'])
+        print(timestamp() + " nothing to report to " + server_ip)
     time_reported = time.time()
 
 
