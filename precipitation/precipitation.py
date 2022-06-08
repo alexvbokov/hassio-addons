@@ -117,7 +117,7 @@ def check_precipitations():
         lat, lng = hassio_get_lat_lng()
 
         try:
-            weather = json.loads(urllib.request.urlopen("http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,hourly,alerts&units=metric&lat=" + lat + "&lon=" + lng + "&appid=" + config['api_key'] ).read())["daily"]
+            weather = json.loads(urllib.request.urlopen("http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,hourly,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lng) + "&appid=" + config['api_key'] ).read())["daily"]
             if family_is_home:
                 precipitations_since_home = 0
             else:
