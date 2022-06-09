@@ -1,6 +1,6 @@
 {
   "name": "narodmon",
-  "version": "1.09",
+  "version": "1.10",
   "slug": "narodmon",
   "init": "false",
   "homeassistant_api": "true",

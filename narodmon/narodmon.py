@@ -27,13 +27,13 @@ def second():
     return time.localtime()[5]
 
 def reboot_script():
-    print("doing reboot/exit...")
+    print("doing reboot/exit...", flush=True)
     os._exit( 0 )
 
 def watchdog():
     threading.Timer(60.0, watchdog).start()
     if time.time() - watchdog_timestamp > 30 * 60:      # 30 minutes?
-        print(timestamp() + " rebooting (stopping) by internal watchdog...\n\n\n\n\n\n\n\n")
+        print(timestamp() + " rebooting (stopping) by internal watchdog...\n\n\n\n\n\n\n\n", flush=True)
         reboot_script()
 
 
@@ -43,7 +43,7 @@ try:
         config = json.load(options_file)
 except IOError:
     print(timestamp() + " no options.json, using defaults")
-print( json.dumps( config, indent=4 ), "\n" )
+print( json.dumps( config, indent=4 ), "\n", flush=True )
 
 
 program_start = time.time()
@@ -57,7 +57,7 @@ server_ip = config['server']
 sensor_list = json.loads(config['sensor list'])
 verbose = config['verbose']
 supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-print( json.dumps( sensor_list, indent=4 ), "\n" )
+print( json.dumps( sensor_list, indent=4 ), "\n", flush=True )
 
 
 count = 0
@@ -71,11 +71,11 @@ while True:
         try:
             response = requests.get( "http://supervisor/core/api/states/"+sensor_list[sensor], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
             if verbose is True:
-                print( response )
+                print( response, flush=True )
             data = json.loads(response)
             value = data['state'].replace('on','1').replace('off','0')
             if verbose is True:
-                print( value )
+                print( value, flush=True )
         except:
             value = None
         if value is not None:
@@ -83,18 +83,18 @@ while True:
     request += "\n##"
 
     if request != "#" + device_mac:
-        print(timestamp() + " " + request.replace("\n", " "))
+        print(timestamp() + " " + request.replace("\n", " "), flush=True)
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((server_ip, 8283))
             sock.send(request.encode("utf-8"))
             response = str(sock.recv(64))
-            print(response)
+            print(response, flush=True)
             sock.close()
         except socket.error:
-            print(timestamp() + " error connecting to " + server_ip)
+            print(timestamp() + " error connecting to " + server_ip, flush=True)
     else:
-        print(timestamp() + " nothing to report to " + server_ip)
+        print(timestamp() + " nothing to report to " + server_ip, flush=True)
     time_reported = time.time()
 
 
