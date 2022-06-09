@@ -78,7 +78,7 @@ while True:
                 print( value, flush=True )
         except:
             value = None
-        if value is not None:
+        if value is not None and value != 'unavailable':
             request += "\n#" + sensor + "#" + value
     request += "\n##"
 
