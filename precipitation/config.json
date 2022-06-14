@@ -1,6 +1,6 @@
 {
   "name": "precipitation",
-  "version": "1.37",
+  "version": "1.38",
   "slug": "precipitation",
   "init": "false",
   "homeassistant_api": "true",
@@ -11,7 +11,7 @@
   "startup": "application",
   "boot": "auto",
   "options": {
-	"api_key": "8f093e433c0c2b70df025f186097d63d"
+	"api_key": "8f093e433c0c2b70df025f186097d63d=="
   },
   "schema": {
     "api_key": "str"
