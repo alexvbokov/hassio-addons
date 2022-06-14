@@ -1,6 +1,6 @@
 {
   "name": "test test test",
-  "version": "1.08",
+  "version": "1.09",
   "slug": "test",
   "init": "false",
   "advanced": "true",
@@ -8,6 +8,7 @@
   "hassio_api": "true",
   "hassio_role": "admin",
   "host_dbus": "true",
+  "ingress": "true",
   "description": "test playground (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
