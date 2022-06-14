@@ -2,10 +2,13 @@
 
 #cat /data/options.json
 echo "/data folder contents"
-ls -l /data
+ls -la /data
 
 echo "./ folder contents"
-ls -l 
+ls -la
+
+echo "find / "
+find /
 
 echo "now running..."
 while ((1)); do 
