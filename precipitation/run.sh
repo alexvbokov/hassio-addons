@@ -1,14 +1,14 @@
 #!/usr/bin/with-contenv bashio
 
-#cat /data/options.json
+cat /data/options.yaml
 echo "/data folder contents"
 ls -la /data
 
 echo "./ folder contents"
 ls -la
 
-echo "find / "
-find /
+#echo "find / "
+#find /
 
 echo "now running..."
 while ((1)); do 
