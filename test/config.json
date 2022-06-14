@@ -1,0 +1,13 @@
+{
+  "name": "test",
+  "version": "1.01",
+  "slug": "test",
+  "init": "false",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "test playground (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto"
+}
