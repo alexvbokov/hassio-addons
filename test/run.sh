@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv bashio
 
 echo "== $(printenv SUPERVISOR_TOKEN) =="
-curl -X GET -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" -H "Content-Type: application/json" http://supervisor/network/config
-ls -la
-# python3 /test.py
+wget -S --header="Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" --headeer="Content-Type: application/json" http://supervisor/core/api/states/zone.Home
 

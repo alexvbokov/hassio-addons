@@ -64,7 +64,7 @@ house_heater_on = False
 def hassio_get_lat_lng():
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
-        response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+token, "content-type": "application/json" } ).text
+        response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
         lat = json.loads(response)["attributes"]["latitude"]
         lng = json.loads(response)["attributes"]["longitude"]
     except:
