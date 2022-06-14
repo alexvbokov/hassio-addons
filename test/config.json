@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "test test test",
   "version": "1.01",
   "slug": "test",
   "init": "false",
@@ -9,5 +9,9 @@
   "description": "test playground (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
-  "boot": "auto"
+  "boot": "auto",
+  "options": {
+  },
+  "schema": {
+  }
 }
