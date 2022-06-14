@@ -21,7 +21,7 @@ cat /data/options.json
 client_id=$(cat /data/options.json | jq -r ".client_id")
 client_ssh=$(cat /data/options.json | jq -r ".client_ssh")
 #hassio_ip=$(cat /data/options.json | jq -r ".hassio_ip")
-hassio_ip=$(ha network info | grep "192.168" | grep "/" | awk '{print $2}' | cut -d/ -f1)
+hassio_ip=$(/usr/bin/ha network info | grep "192.168" | grep "/" | awk '{print $2}' | cut -d/ -f1)
 
 cloud_hostname='cloud.uzvhost.ru'
 cloud_username='cloudio'
