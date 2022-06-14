@@ -1,19 +1,22 @@
 {
   "name": "cloud_io",
-  "version": "1.1",
+  "version": "1.11",
   "slug": "cloud_io",
   "hassio_role": "default",
   "init": "false",
-  "description": "cloud.io v1.1 help access hass.io from outside (с) Alex Bokov",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "cloud.io help access hass.io from outside (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
   "options": { 
   	"client_id": 23456,
-    "hassio_ip": "192.168.0.100"
+    "client_ssh": "false"
 	},
   "schema": { 
   	"client_id": "int",
-    "hassio_ip": "str"
+    "client_ssh": "bool"
 	}
 }
