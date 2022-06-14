@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
 
-cat /data/options.yaml
+cat /data/options.json
 echo "/data folder contents"
 ls -la /data
 

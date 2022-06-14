@@ -1,0 +1,19 @@
+{
+  "name": "precipitation",
+  "version": "1.37",
+  "slug": "precipitation",
+  "init": "false",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "precipitation - calc rain and snow amount (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": {
+	"api_key": "8f093e433c0c2b70df025f186097d63d"
+  },
+  "schema": {
+    "api_key": "str"
+  }
+}
