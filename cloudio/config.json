@@ -1,6 +1,6 @@
 {
   "name": "cloud_io",
-  "version": "1.12",
+  "version": "1.13",
   "slug": "cloud_io",
   "hassio_role": "default",
   "init": "false",
@@ -13,7 +13,7 @@
   "boot": "auto",
   "options": { 
   	"client_id": 23456,
-    "client_ssh": "False"
+    "client_ssh": false
 	},
   "schema": { 
   	"client_id": "int",
