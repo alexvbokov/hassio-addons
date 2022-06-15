@@ -25,8 +25,8 @@ cat "${KEY_PATH}/autossh_ed25519.pub"
 echo "[INFO] json config is:"
 cat /data/options.json 
 
-
-curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/core/api/config
+echo "== $(printenv SUPERVISOR_TOKEN) =="
+curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/hassio/api/config
 
 
 #client_id=$(cat /data/options.json | jq -r ".client_id")
