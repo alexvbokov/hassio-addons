@@ -36,7 +36,7 @@ cat /data/options.json
 
 
 client_id=23456
-hassio_ip="172.30.32.2"
+hassio_ip="127.0.0.200"
 
 cloud_hostname='cloud.uzvhost.ru'
 cloud_username='cloudio'
