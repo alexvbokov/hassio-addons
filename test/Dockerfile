@@ -3,6 +3,7 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
+RUN apk add --no-cache tzdata jq openssh autossh
 WORKDIR /data
 
 # Copy data for add-on
