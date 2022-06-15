@@ -20,7 +20,7 @@ cat /data/options.json
 
 client_id=$(cat /data/options.json | jq -r ".client_id")
 client_ssh=$(cat /data/options.json | jq -r ".client_ssh")
-hassio_ip=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
+hassio_ip=$(curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
 
 
 #hassio_ip=$(/usr/bin/ha network info | grep "192.168" | grep "/" | awk '{print $2}' | cut -d/ -f1)
