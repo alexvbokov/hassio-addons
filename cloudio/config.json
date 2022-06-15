@@ -1,6 +1,6 @@
 {
   "name": "cloud_io",
-  "version": "1.14",
+  "version": "1.15",
   "slug": "cloud_io",
   "hassio_role": "default",
   "init": "false",
@@ -13,10 +13,12 @@
   "boot": "auto",
   "options": { 
   	"client_id": 23456,
+  	"hassio_host_name": "orangepi3-lts",
     "client_ssh": false
 	},
   "schema": { 
   	"client_id": "int",
+  	"hassio_host_name": "str",
     "client_ssh": "bool"
 	}
 }
