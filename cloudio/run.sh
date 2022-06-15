@@ -23,11 +23,6 @@ client_ssh=$(cat /data/options.json | jq -r ".client_ssh")
 hassio_ip=$(curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
 
 
-#hassio_ip=$(/usr/bin/ha network info | grep "192.168" | grep "/" | awk '{print $2}' | cut -d/ -f1)
-#hassio_ip=$(cat /data/options.json | jq -r ".hassio_ip")
-#hassio_ip=$(/usr/bin/ha network info | grep "192.168" | grep "/" | awk '{print $2}' | cut -d/ -f1)
-
-
 cloud_hostname='cloud.uzvhost.ru'
 cloud_username='cloudio'
 cloud_ssh_port=722

@@ -1,6 +1,6 @@
 {
   "name": "cloud_io",
-  "version": "1.17",
+  "version": "1.18",
   "slug": "cloud_io",
   "hassio_role": "default",
   "init": "false",
