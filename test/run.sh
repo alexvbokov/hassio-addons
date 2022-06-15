@@ -27,7 +27,7 @@ cat /data/options.json
 
 echo "== $(printenv SUPERVISOR_TOKEN) =="
 hassio_ip=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
-
+echo "hassio ip -> $hassio_ip"
 
 #client_id=$(cat /data/options.json | jq -r ".client_id")
 #client_ssh=$(cat /data/options.json | jq -r ".client_ssh")
@@ -39,7 +39,6 @@ hassio_ip=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Conte
 
 
 client_id=23456
-hassio_ip="127.0.0.200"
 
 cloud_hostname='cloud.uzvhost.ru'
 cloud_username='cloudio'
