@@ -26,7 +26,7 @@ echo "[INFO] json config is:"
 cat /data/options.json 
 
 echo "== $(printenv SUPERVISOR_TOKEN) =="
-curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info
+hassio_ip=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
 
 
 #client_id=$(cat /data/options.json | jq -r ".client_id")
