@@ -17,10 +17,13 @@ cat "${KEY_PATH}/autossh_ed25519.pub"
 echo "[INFO] json config is:"
 cat /data/options.json 
 
-
 client_id=$(jq -r ".client_id" /data/options.json)
 client_ssh=$(jq -r ".client_ssh" /data/options.json)
-hassio_ip=$(curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info | jq -r ".data.interfaces[] | .ipv4.address[]" | awk -F/ '{print $1}' )
+router_webui=$(jq -r ".router_webui" /data/options.json)
+
+curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info > /data/networkinfo
+hassio_ip=$( jq -r ".data.interfaces[] | .ipv4.address[]" /data/networkinfo | awk -F/ '{print $1}' )
+router_ip=$( jq -r ".data.interfaces[] | .ipv4.gateway[]" /data/networkinfo | awk -F/ '{print $1}' )
 
 
 cloud_hostname='cloud.uzvhost.ru'
@@ -40,6 +43,14 @@ if [ "$client_ssh" = true ]; then
 	ssh_control_port=$((client_id+2))
 	ssh_monitor_port=$((control_port+3))
 	command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+	echo "[INFO] command args: ${command_args}"
+	/usr/bin/autossh ${command_args} &
+fi
+
+if [ "$router_webui" = true ]; then
+	router_webui_control_port=$((client_id+4))
+	router_webui_monitor_port=$((control_port+5))
+	command_args="-M ${router_webui_monitor_port} -R 0.0.0.0:${router_webui_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
 	/usr/bin/autossh ${command_args} &
 fi
