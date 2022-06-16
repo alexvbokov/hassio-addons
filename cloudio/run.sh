@@ -24,7 +24,7 @@ router_webui=$(jq -r ".router_webui" /data/options.json)
 curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info > /data/networkinfo
 cat /data/networkinfo
 hassio_ip=$( jq -r ".data.interfaces[] | .ipv4.address[]" /data/networkinfo | awk -F/ '{print $1}' )
-router_ip=$( jq -r ".data.interfaces[] | .ipv4.gateway[]" /data/networkinfo )
+#router_ip=$( jq -r ".data.interfaces[] | .ipv4.gateway[]" /data/networkinfo )
 
 
 cloud_hostname='cloud.uzvhost.ru'
