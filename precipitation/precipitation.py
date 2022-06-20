@@ -96,7 +96,7 @@ def hassio_family_is_home():
     return ( not json.loads(response)["state"] == 'not_home' )
 def hassio_get_lat_lng():
     try:
-        response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+token, "content-type": "application/json" } ).text
+        response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
         if verbose is True:
             print( response )
         lat = json.loads(response)["attributes"]["latitude"]
