@@ -39,11 +39,12 @@ precipitations_since_home = 0       # amount since family was home
 weather_icons = ['','','','','','','','']
 dates = ['','','','','','','','']
 week_day = [ "пн","вт","ср","чт","пт","сб","вс" ]
+verbose = config['verbose']
+supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 
 
 def report_to_hassio():
 
-    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 
     def report_precipitations( entity_id, friendly_name, value ):
         try:
@@ -84,22 +85,26 @@ def report_to_hassio():
 
 
 def hassio_family_is_home():
-    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
         response = requests.get( "http://supervisor/core/api/states/group.family", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
-        print( "hassio_family_is_home: ", response )
+        if verbose is True:
+            print( response )
+        print( timestamp() + " hassio_family_is_home: ", json.loads(response)["state"] )
     except:
         response = '{ "state":"home" }'
+        print( timestamp() + " assuming family is home" )
     return ( not json.loads(response)["state"] == 'not_home' )
 def hassio_get_lat_lng():
-    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
         response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+token, "content-type": "application/json" } ).text
+        if verbose is True:
+            print( response )
         lat = json.loads(response)["attributes"]["latitude"]
         lng = json.loads(response)["attributes"]["longitude"]
     except:
         lat = 55.7558
         lng = 37.6173       # moscow center
+    print( timestamp() + " latitude, longitude: ", lat, lng )
     return lat, lng
 
 
