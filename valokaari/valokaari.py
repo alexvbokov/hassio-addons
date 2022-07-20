@@ -165,9 +165,9 @@ def average_for_day(tm):
     print( timestamp() + " %f, %f " % (lat,lon), flush=True )
     api_key = config["api_key"]
     if tm <= time.time():
-        weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + lat + "&lon=" + lon + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
+        weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
     else:
-        weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + lat + "&lon=" + lon + "&appid=" + api_key ).read())["hourly"]
+        weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
     #print(json.dumps(weather_hourly, indent=4, sort_keys=True))
     temp_sigma = 0
     temp_hours = 0  # за сколько часов
