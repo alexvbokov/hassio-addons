@@ -161,7 +161,7 @@ def estimated_delta():
     else:
         return 8
 def average_for_day(tm):
-    lat, lon = hassio_get_lan_lng()
+    lat, lon = hassio_get_lat_lng()
     print( timestamp() + " %f, %f " % (lat,lon), flush=True )
     api_key = config["api_key"]
     if tm <= time.time():
