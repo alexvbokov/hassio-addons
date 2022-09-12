@@ -267,7 +267,7 @@ def check_house():
                     house_warm_up = 100     # no need to warm up
                 morning_at = time.localtime()
                 print(timestamp() + " morning temperature: %s °C" % house_temp, flush=True )
-                report_to_hassio( config["will_come_tomorrow"], "off", "", "", "")
+                report_to_hassio( config["will_come_tomorrow"], "off", "", "", "mdi:radiator")
 
 
             house_delta_temp = estimated_delta()
