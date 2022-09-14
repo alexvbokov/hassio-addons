@@ -190,8 +190,14 @@ def average_for_day(tm):
 
 def house_heating_on_off( onoff ):
     if hassio_house_heating_season():
-        print(timestamp() + " turn " + config["house_heating"] + " " + { True:"on", False:"off" }[onoff], flush=True )
-        report_to_hassio( config["house_heating"], { True:"on", False:"off" }[onoff], "", "", "" )
+        state = { True:"on", False:"off" }[onoff]
+        print(timestamp() + " turn " + config["house_heating"] + " " + state, flush=True )
+        supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+        try:
+            response = requests.post( "http://supervisor/core/api/states/"+config["house_heating"], headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": state }) )
+        except:
+            print( timestamp() + " failed switching " + config["house_heating"] )
+        # report_to_hassio( config["house_heating"], { True:"on", False:"off" }[onoff], "House heating", "", "" )
 def check_house():
     global house_temp
     global house_heater_on
