@@ -124,7 +124,7 @@ def hassio_house_heating_season():
     except:
         response = '{ "state":"on" }'
     return ( not json.loads(response)["state"] == 'off' )
-def house_switch( switch_name, onoff ):
+def hassio_switch( switch_name, onoff ):
     state = { True:"on", False:"off" }[onoff]
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
