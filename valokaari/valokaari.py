@@ -198,7 +198,6 @@ def average_for_day(tm):
 
 def house_heating_on_off( onoff ):
     if hassio_house_heating_season():
-        print(timestamp() + " switching " + config["house_heating"] + " to " + str(onoff), flush=True )
         hassio_switch( config["house_heating"], onoff )
 #         state = { True:"on", False:"off" }[onoff]
 #         print(timestamp() + " turn " + config["house_heating"] + " " + state, flush=True )
@@ -268,8 +267,12 @@ def check_house():
 
             evening_target_temp = tomorrows_temp() if hour() * 60 + minute() >= config["nightstart_minutes"] else todays_temp()
             if house_temp < evening_target_temp + house_delta_temp and house_temp < config["max_temp"]:
+                if house_heater_on is False:
+                    print(timestamp() + " switching " + config["house_heating"] + " to " + str(!house_heater_on), flush=True )
                 house_heater_on = True
             if house_temp > evening_target_temp + house_delta_temp + 0.5 or house_temp > config["max_temp"]:
+                if house_heater_on is True:
+                    print(timestamp() + " switching " + config["house_heating"] + " to " + str(!house_heater_on), flush=True )
                 house_heater_on = False
             house_heating_on_off( house_heater_on )
 
