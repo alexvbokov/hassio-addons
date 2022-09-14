@@ -198,6 +198,7 @@ def average_for_day(tm):
 
 def house_heating_on_off( onoff ):
     if hassio_house_heating_season():
+        print(timestamp() + " switching " + config["house_heating"] + " to " + str(onoff), flush=True )
         hassio_switch( config["house_heating"], onoff )
 #         state = { True:"on", False:"off" }[onoff]
 #         print(timestamp() + " turn " + config["house_heating"] + " " + state, flush=True )
