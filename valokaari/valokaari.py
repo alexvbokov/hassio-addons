@@ -195,9 +195,10 @@ def house_heating_on_off( onoff ):
         supervisor_token = os.environ["SUPERVISOR_TOKEN"]
         print( "http://supervisor/core/api/services/switch/turn_"+state, flush=True )
         print( 'headers={ "Authorization": "Bearer "'+supervisor_token+', "content-type": "application/json" }', flush=True )
-        print( 'data=json.dumps({ "entiry_id": house_heating" })', flush=True  )
+        print( 'data=json.dumps({ "entiry_id": "switch.house_heating" })', flush=True  )
         try:
-            response = requests.post( "http://supervisor/core/api/services/switch/turn_"+state, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "entiry_id": "house_heating" }) )
+            response = requests.post( "http://supervisor/core/api/services/switch/turn_"+state, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "entiry_id": "switch.house_heating" }) )
+            print( response )
         except:
             print( timestamp() + " failed switching " + config["house_heating"], flush=True  )
         # report_to_hassio( config["house_heating"], { True:"on", False:"off" }[onoff], "House heating", "", "" )
