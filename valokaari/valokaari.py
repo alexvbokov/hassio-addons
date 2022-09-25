@@ -224,7 +224,7 @@ def check_house():
 
     if house_temp != hassio_house_temp():
         house_temp = hassio_house_temp()
-        print( timestamp() + " house: %s °C" % house_temp, flush=True )
+        print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
 
     if house_morning_temp is None:
         house_morning_temp = round( house_temp, 1 )
