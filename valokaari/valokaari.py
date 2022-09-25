@@ -263,7 +263,7 @@ def check_house():
                     average_temp = None
                 house_target_temp = round( tomorrows_temp() + house_delta_temp, 1)
                 average_temp = round(average_temp, 1) if average_temp is not None else None
-                print(timestamp() + " yes! got house_delta_temp for tomorrow: " + str(house_delta_temp), flush=True)
+                print(timestamp() + " house_target_temp for tomorrow morning: " + str(house_target_temp), flush=True)
 
             evening_target_temp = tomorrows_temp() if hour() * 60 + minute() >= config["nightstart_minutes"] else todays_temp()
             if house_temp < evening_target_temp + house_delta_temp and house_temp < config["max_temp"]:
