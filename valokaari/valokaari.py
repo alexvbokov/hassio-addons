@@ -222,9 +222,9 @@ def check_house():
     global average_temp
     global just_started
 
-    if house_temp != hassio_house_temp():
-        house_temp = hassio_house_temp()
-        print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+#     if house_temp != hassio_house_temp():
+#         house_temp = hassio_house_temp()
+#         print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
 
     if house_morning_temp is None:
         house_morning_temp = round( house_temp, 1 )
@@ -268,11 +268,13 @@ def check_house():
             evening_target_temp = tomorrows_temp() if hour() * 60 + minute() >= config["nightstart_minutes"] else todays_temp()
             if house_temp < evening_target_temp + house_delta_temp and house_temp < config["max_temp"]:
                 if house_heater_on is False:
-                    print(timestamp() + " switching " + config["house_heating"] + " to on", flush=True )
+                    print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+                    print( timestamp() + " switching " + config["house_heating"] + " to on", flush=True )
                 house_heater_on = True
             if house_temp > evening_target_temp + house_delta_temp + 0.5 or house_temp > config["max_temp"]:
                 if house_heater_on is True:
-                    print(timestamp() + " switching " + config["house_heating"] + " to off", flush=True )
+                    print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+                    print( timestamp() + " switching " + config["house_heating"] + " to off", flush=True )
                 house_heater_on = False
             house_heating_on_off( house_heater_on )
 
@@ -299,8 +301,10 @@ def check_house():
             house_min_temp = hassio_climate_get_min_temp()      # config["min_temp"] if "min_temp" in config else config_min_temp
             if house_temp < house_min_temp:
                 house_heater_on = True
+                print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
             if house_temp > house_min_temp + 1:
                 house_heater_on = False
+                print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
             house_heating_on_off( house_heater_on )
             hassio_set_climate( house_min_temp, house_min_temp+1, house_heater_on )
 
