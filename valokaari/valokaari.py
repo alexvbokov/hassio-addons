@@ -222,8 +222,8 @@ def check_house():
     global average_temp
     global just_started
 
-#     if house_temp != hassio_house_temp():
-#         house_temp = hassio_house_temp()
+    if house_temp != hassio_house_temp():
+        house_temp = hassio_house_temp()
 #         print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
 
     if house_morning_temp is None:
