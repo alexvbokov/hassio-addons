@@ -299,12 +299,16 @@ def check_house():
             house_delta_temp = estimated_delta()
 
             house_min_temp = hassio_climate_get_min_temp()      # config["min_temp"] if "min_temp" in config else config_min_temp
-            if house_temp < house_min_temp:
-                house_heater_on = True
-                print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+            if house_temp < house_min_temp :
+                if house_heater_on is False:
+                    house_heater_on = True
+                    print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+                    print( timestamp() + " switching " + config["house_heating"] + " to on", flush=True )
             if house_temp > house_min_temp + 1:
-                house_heater_on = False
-                print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+                if house_heater_on is True:
+                    house_heater_on = False
+                    print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
+                    print( timestamp() + " switching " + config["house_heating"] + " to off", flush=True )
             house_heating_on_off( house_heater_on )
             hassio_set_climate( house_min_temp, house_min_temp+1, house_heater_on )
 
