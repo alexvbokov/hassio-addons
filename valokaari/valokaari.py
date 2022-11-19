@@ -45,7 +45,7 @@ try:
         config = json.load(options_file)
 except IOError:
     print(timestamp() + " no options.json, using defaults")
-print( json.dumps( config, indent=4 ) )
+print( json.dumps( config, indent=4 ), flush=True )
 
 
 config_house_delta_temp = 8
@@ -76,7 +76,7 @@ def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
     try:
         response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
     except:
-        print( timestamp() + " failed reporting to hassio" )
+        print( timestamp() + " failed reporting to hassio", flush=True )
 def hassio_set_climate( temp_low, temp_high, onoff ):
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
@@ -86,7 +86,7 @@ def hassio_set_climate( temp_low, temp_high, onoff ):
             response = requests.post( "http://supervisor/core/api/services/climate/set_hvac_mode", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "entity_id":config["climate"], "hvac_mode":["heat_cool","heat"][onoff] }) ).text
             response = requests.post( "http://supervisor/core/api/services/climate/set_temperature", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "entity_id":config["climate"], "target_temp_high":temp_high, "target_temp_low":temp_low }) ).text
     except:
-        print( timestamp() + " hassio_set_climate failed connecting to hassio" )
+        print( timestamp() + " hassio_set_climate failed connecting to hassio", flush=True )
 def hassio_climate_get_min_temp():
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
