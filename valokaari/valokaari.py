@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.150 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.151 / " + version )
 print( description )
 
 try:
@@ -171,7 +171,7 @@ def estimated_delta():
 def average_for_day(tm):
     lat, lon = hassio_get_lat_lng()
     api_key = config["api_key"]
-    print( timestamp() + " trying to get average for day", flush=True )
+    print( timestamp() + " requesting average values for " + datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y"), flush=True )
     if tm <= time.time():
         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
     else:
