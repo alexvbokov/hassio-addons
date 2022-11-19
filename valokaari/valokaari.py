@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.147 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.148 / " + version )
 print( description )
 
 try:
@@ -170,7 +170,6 @@ def estimated_delta():
         return 8
 def average_for_day(tm):
     lat, lon = hassio_get_lat_lng()
-    print( timestamp() + " %f, %f " % (lat,lon), flush=True )
     api_key = config["api_key"]
     if tm <= time.time():
         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
@@ -193,7 +192,10 @@ def average_for_day(tm):
                 if hour >= 10 and hour <= 14:
                     sunny_sigma += sunny
                     sunny_hours += 1
-    return round((temp_sigma / temp_hours) * 10) / 10, round((sunny_sigma / sunny_hours))/100
+    average_temp = round((temp_sigma / temp_hours) * 10) / 10
+    average_sunny = round((sunny_sigma / sunny_hours))/100
+    print( timestamp() + " %f, %f -> average_temp %f, average_sunny %f" % ( lat, lon, average_temp, average_sunny ), flush=True )
+    return average_temp, average_sunny
 
 
 def house_heating_on_off( onoff ):
