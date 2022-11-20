@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.153 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.154 / " + version )
 print( description )
 
 try:
@@ -243,6 +243,9 @@ def check_house():
         morning_at = time.localtime()
         try:
             average_temp, average_sunny = average_for_day(time.time()) # today
+        except urllib.error.URLError:
+            print(timestamp() + " request timeout", flush=True )
+            average_temp = None
         except:
             average_temp = None
 
@@ -262,6 +265,8 @@ def check_house():
                     print(timestamp() + " morning_temp = %.2f, house_temp = %.2f, hour = %d, morning_at = %d, average_temp = %.2f" % (morning_temp,house_temp,hour(),hour(morning_at),average_temp) )
                     k = ( morning_temp - house_temp ) / ( ( hour() - hour(morning_at) ) * (( morning_temp + house_temp )/2 - average_temp ) )
                     print(timestamp() + " calculated K = " + str(k), flush=True)
+                except urllib.error.URLError:
+                    print(timestamp() + " request timeout", flush=True )
                 except:
                     print(timestamp() + " failed calculating K", flush=True )
 
@@ -270,6 +275,10 @@ def check_house():
                     k = float(config["house_k"])
                     a = float(config["house_a"])
                     house_delta_temp = (tomorrows_temp() - average_temp) * k * 16 / (1 - k * 8) - a * average_sunny
+                except urllib.error.URLError:
+                    print(timestamp() + " request timeout", flush=True )
+                    house_delta_temp = config_house_delta_temp
+                    average_temp = None
                 except:
                     house_delta_temp = config_house_delta_temp
                     average_temp = None
