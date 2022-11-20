@@ -195,7 +195,7 @@ def average_for_day(tm):
                     sunny_hours += 1
     day_average_temp = round((temp_sigma / temp_hours) * 10) / 10
     day_average_sunny = round((sunny_sigma / sunny_hours))/100
-    print( timestamp() + " %f, %f -> average_temp %f, average_sunny %f" % ( lat, lon, day_average_temp, day_average_sunny ), flush=True )
+    print( timestamp() + " %f, %f -> average_temp %2.1f, average_sunny %2.2f" % ( lat, lon, day_average_temp, day_average_sunny ), flush=True )
     return day_average_temp, day_average_sunny
 
 
