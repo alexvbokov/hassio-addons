@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.154 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.155 / " + version )
 print( description )
 
 try:
@@ -300,7 +300,7 @@ def check_house():
             house_heating_on_off( house_heater_on )
 
             house_min_temp = hassio_climate_get_min_temp()
-            hassio_set_climate( house_min_temp, house_target_temp, house_heater_on )
+            hassio_set_climate( house_min_temp, min( house_target_temp, config["max_temp"] ), house_heater_on )
         else:               # day
             if hour() * 60 + minute() == config["daystart_minutes"]:        # day just started
                 house_morning_temp = round( house_temp, 1 )
