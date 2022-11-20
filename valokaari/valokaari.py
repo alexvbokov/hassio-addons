@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.151 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.152 / " + version )
 print( description )
 
 try:
@@ -154,6 +154,15 @@ def tomorrows_temp():
     weekend_temp = int(config['weekend_temp']) if 'weekend_temp' in config else config_weekend_temp
     workday_temp = int(config['workday_temp']) if 'workday_temp' in config else config_workday_temp
     return (weekend_temp if is_tomorrow_weekend() or hassio_family_is_home() or hassio_will_come_tomorrow() else workday_temp)
+def tomorrows_state():
+    if is_tomorrow_weekend():
+        return "tomorrow is weekend"
+    elif hassio_family_is_home():
+        return "family is home"
+    elif hassio_will_come_tomorrow():
+        return "will come tomorrow"
+    else:
+        return "tomorrow is workday"
 
 
 
