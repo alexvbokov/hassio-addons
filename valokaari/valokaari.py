@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.155 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2022 v.156 / " + version )
 print( description )
 
 try:
@@ -149,15 +149,15 @@ def is_tomorrow_weekend():
 def todays_temp():
     weekend_temp = int(config['weekend_temp']) if 'weekend_temp' in config else config_weekend_temp
     workday_temp = int(config['workday_temp']) if 'workday_temp' in config else config_workday_temp
-    return (weekend_temp if is_weekend() or hassio_family_is_home() else workday_temp)
+    return (weekend_temp if is_weekend() or family_is_home else workday_temp)
 def tomorrows_temp():
     weekend_temp = int(config['weekend_temp']) if 'weekend_temp' in config else config_weekend_temp
     workday_temp = int(config['workday_temp']) if 'workday_temp' in config else config_workday_temp
-    return (weekend_temp if is_tomorrow_weekend() or hassio_family_is_home() or hassio_will_come_tomorrow() else workday_temp)
+    return (weekend_temp if is_tomorrow_weekend() or family_is_home or hassio_will_come_tomorrow() else workday_temp)
 def tomorrows_state():
     if is_tomorrow_weekend():
         return "tomorrow is weekend"
-    elif hassio_family_is_home():
+    elif family_is_home is True:
         return "family is home"
     elif hassio_will_come_tomorrow():
         return "will come tomorrow"
@@ -284,15 +284,15 @@ def check_house():
                     average_temp = None
                 house_target_temp = round( tomorrows_temp() + house_delta_temp, 1)
                 average_temp = round(average_temp, 1) if average_temp is not None else None
-                print(timestamp() + " house_target_temp for tomorrow morning: " + str(house_target_temp) + ", " + tomorrows_state(), flush=True)
+                print(timestamp() + " house_target_temp for tomorrow morning: %s + %s = %s" % ( tomorrows_temp(), round(house_delta_temp,1), house_target_temp ) + ", " + tomorrows_state(), flush=True)
 
             evening_target_temp = tomorrows_temp() if hour() * 60 + minute() >= config["nightstart_minutes"] else todays_temp()
-            if house_temp < evening_target_temp + house_delta_temp and house_temp < config["max_temp"]:
+            if house_temp < evening_target_temp + house_delta_temp and ( house_temp < config["max_temp"] or family_is_home is False ):
                 if house_heater_on is False:
                     print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
                     print( timestamp() + " switching " + config["house_heating"] + " to on", flush=True )
                 house_heater_on = True
-            if house_temp > evening_target_temp + house_delta_temp + 0.5 or house_temp > config["max_temp"]:
+            if house_temp > evening_target_temp + house_delta_temp + 0.5 or ( house_temp > config["max_temp"] and family_is_home ):
                 if house_heater_on is True:
                     print( timestamp() + " house temp: %s °C" % house_temp, flush=True )
                     print( timestamp() + " switching " + config["house_heating"] + " to off", flush=True )
@@ -336,6 +336,7 @@ def check_house():
 
 
 while True:
+    family_is_home = hassio_family_is_home()
     check_house()
     time.sleep(1)
     report_to_hassio( "sensor.valokaari_house_target_temp", house_target_temp, "target temp", "°C", "")
