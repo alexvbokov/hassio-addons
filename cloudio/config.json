@@ -1,6 +1,6 @@
 {
   "name": "cloud_io",
-  "version": "1.31",
+  "version": "1.32",
   "slug": "cloud_io",
   "hassio_role": "default",
   "init": "false",
@@ -14,13 +14,11 @@
   "options": { 
   	"client_id": 23456,
     "client_ssh": false,
-    "client_https": false,
     "router_webui": false
 	},
   "schema": { 
   	"client_id": "int",
     "client_ssh": "bool",
-    "client_https": "bool",
     "router_webui": "bool"
 	}
 }
