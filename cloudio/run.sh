@@ -51,7 +51,7 @@ fi
 if [ "$client_https" = true ]; then
 	https_control_port=$((client_id+6))
 	https_monitor_port=$((control_port+7))
-	command_args="-M ${https_monitor_port} -R 0.0.0.0:${https_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+	command_args="-M ${https_monitor_port} -R 0.0.0.0:${https_control_port}:${hassio_ip}:80 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
 	/usr/bin/autossh ${command_args} &
 fi
