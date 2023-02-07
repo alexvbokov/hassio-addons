@@ -19,7 +19,6 @@ cat /data/options.json
 
 client_id=$(jq -r ".client_id" /data/options.json)
 client_ssh=$(jq -r ".client_ssh" /data/options.json)
-client_https=$(jq -r ".client_https" /data/options.json)
 router_webui=$(jq -r ".router_webui" /data/options.json)
 
 curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info > /data/networkinfo
