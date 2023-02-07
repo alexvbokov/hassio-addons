@@ -19,6 +19,7 @@ cat /data/options.json
 
 client_id=$(jq -r ".client_id" /data/options.json)
 client_ssh=$(jq -r ".client_ssh" /data/options.json)
+client_https=$(jq -r ".client_https" /data/options.json)
 router_webui=$(jq -r ".router_webui" /data/options.json)
 
 curl -s -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/network/info > /data/networkinfo
@@ -43,6 +44,14 @@ if [ "$client_ssh" = true ]; then
 	ssh_control_port=$((client_id+2))
 	ssh_monitor_port=$((control_port+3))
 	command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+	echo "[INFO] command args: ${command_args}"
+	/usr/bin/autossh ${command_args} &
+fi
+
+if [ "$client_https" = true ]; then
+	https_control_port=$((client_id+6))
+	https_monitor_port=$((control_port+7))
+	command_args="-M ${https_monitor_port} -R 0.0.0.0:${https_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
 	/usr/bin/autossh ${command_args} &
 fi
