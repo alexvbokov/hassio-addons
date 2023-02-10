@@ -12,7 +12,7 @@
   "startup": "application",
   "boot": "auto",
   "options": { 
-  	"client_id": 34567,
+  	"client_id": 23456,
     "client_ssh": false,
     "router_webui": false
 	},
