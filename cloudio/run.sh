@@ -35,38 +35,31 @@ monitor_port=$((control_port+1))
 
 # export AUTOSSH_DEBUG=1
 
-echo "[INFO] testing cloud ssh connection"
-ssh -o StrictHostKeyChecking=no -p $cloud_ssh_port $cloud_hostname 2>/dev/null || true
 
+while true
+do
 
-if [ "$client_ssh" = true ]; then
-	ssh_control_port=$((client_id+2))
-	ssh_monitor_port=$((control_port+3))
-	command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+	echo "[INFO] testing cloud ssh connection"
+	ssh -o StrictHostKeyChecking=no -p $cloud_ssh_port $cloud_hostname 2>/dev/null || true
+
+	if [ "$client_ssh" = true ]; then
+		ssh_control_port=$((client_id+2))
+		ssh_monitor_port=$((control_port+3))
+		command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+		echo "[INFO] command args: ${command_args}"
+		/usr/bin/autossh ${command_args} &
+	fi
+
+	if [ "$router_webui" = true ]; then
+		router_webui_control_port=$((client_id+4))
+		router_webui_monitor_port=$((control_port+5))
+		command_args="-M ${router_webui_monitor_port} -R 0.0.0.0:${router_webui_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+		echo "[INFO] command args: ${command_args}"
+		/usr/bin/autossh ${command_args} &
+	fi
+
+	command_args="-M ${monitor_port} -R 0.0.0.0:${control_port}:${hassio_ip}:8123 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
-	/usr/bin/autossh ${command_args} &
-fi
+	/usr/bin/autossh ${command_args}
 
-# if [ "$client_https" = true ]; then
-# 	https_control_port=80
-# 	https_monitor_port=$((control_port+7))
-# 	command_args="-M ${https_monitor_port} -R 0.0.0.0:${https_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
-# 	echo "[INFO] command args: ${command_args}"
-# 	/usr/bin/autossh ${command_args} &
-# fi
-
-if [ "$router_webui" = true ]; then
-	router_webui_control_port=$((client_id+4))
-	router_webui_monitor_port=$((control_port+5))
-	command_args="-M ${router_webui_monitor_port} -R 0.0.0.0:${router_webui_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
-	echo "[INFO] command args: ${command_args}"
-	/usr/bin/autossh ${command_args} &
-fi
-
-
-command_args="-M ${monitor_port} -R 0.0.0.0:${control_port}:${hassio_ip}:8123 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
-echo "[INFO] command args: ${command_args}"
-/usr/bin/autossh ${command_args}
-
-
-
+done
