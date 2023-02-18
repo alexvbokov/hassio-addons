@@ -39,6 +39,8 @@ monitor_port=$((control_port+1))
 while true
 do
 
+	echo "loop start..."
+
 	echo "[INFO] testing cloud ssh connection"
 	ssh -o StrictHostKeyChecking=no -p $cloud_ssh_port $cloud_hostname 2>/dev/null || true
 
@@ -62,6 +64,7 @@ do
 	echo "[INFO] command args: ${command_args}"
 	/usr/bin/autossh ${command_args} || true
 	
-	echo "repeating..."
-
+	echo "repeating in 60 sec..."
+	sleep 60
+	
 done
