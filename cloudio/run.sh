@@ -60,7 +60,7 @@ do
 
 	command_args="-M ${monitor_port} -R 0.0.0.0:${control_port}:${hassio_ip}:8123 -N -q -o ServerAliveInterval=25 -o ServerAliveCountMax=3 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
-	/usr/bin/autossh ${command_args}
+	/usr/bin/autossh ${command_args} || true
 	
 	echo "repeating..."
 
