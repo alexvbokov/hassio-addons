@@ -1,5 +1,5 @@
 {
-  "name": "xNIX server state",
+  "name": "unix server state",
   "version": "0.01",
   "slug": "xNIX_server_state",
   "hassio_role": "default",
@@ -7,7 +7,7 @@
   "homeassistant_api": "true",
   "hassio_api": "true",
   "hassio_role": "default",
-  "description": "UNIX server state with ssh (с) Alex Bokov",
+  "description": "xNIX server state with ssh (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
