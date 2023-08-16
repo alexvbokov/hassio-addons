@@ -30,12 +30,12 @@ do
 		for (( n=0; n<${sensors}; n++ ))
 		do 
 
-			sensor=$(jq -r ".[\"${server_ip}\"][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
-			printf "[INFO]    sensor: ${sensor}\n"
+			sensor_name=$(jq -r ".[\"${server_ip}\"][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
+			printf "[INFO]    sensor: ${sensor_name}\n"
 			remote_command=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor}\"]" /data/options-unquoted.json)
 			printf "[INFO]    command: ${remote_command} \n"
 
-			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
+			command="/usr/bin/sshpass -p '${ssh_pass}' /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[INFO] command: ${command}\n"
 
 			value=$(${command})
