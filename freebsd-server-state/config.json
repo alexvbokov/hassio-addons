@@ -1,7 +1,7 @@
 {
   "name": "unix server state",
   "version": "0.01",
-  "slug": "xNIX_server_state",
+  "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
   "homeassistant_api": "true",
