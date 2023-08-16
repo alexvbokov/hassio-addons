@@ -1,35 +1,47 @@
 #!/usr/bin/with-contenv bashio
 
 
-printf "[INFO] json config is:"
+printf "[INFO] /data/options.json is:"
 cat /data/options.json 
 
-server_ip=$(jq -r ".server" /data/options.json)
-ssh_login=$(jq -r ".login" /data/options.json)
-ssh_pass=$(jq -r ".password" /data/options.json)
+# server_ip=$(jq -r ".server" /data/options.json)
+# ssh_login=$(jq -r ".login" /data/options.json)
+# ssh_pass=$(jq -r ".password" /data/options.json)
 
+
+server_count=$(jq length /data/options.json)
 
 while true
 do
 
-	for n in 1 2 3 4 5
+	for (( s=0; s<${server_count}; s++ ))
 	do 
+		
+		server_ip=$(jq "keys[${s}]" /data/options.json)
+		printf "[INFO] server_ip: ${server_ip}\n"
 
-		remote_command=$(jq -r ".command${n}" /data/options.json)
-		sensor_name=$(jq -r ".name${n}" /data/options.json)
-		printf "\n[INFO] [=${n}=] sensor_name: ${sensor_name} remote_command: ${remote_command}\n"
+		ssh_login=$(jq -r ".[${server_ip}][\"login\"]" /data/options.json)
+		ssh_pass=$(jq -r ".[${server_ip}][\"password\"]" /data/options.json)
+		printf "[INFO] login: ${ssh_login} password: ${ssh_pass} \n"
 
-		if [ ! -z "$remote_command" ]; then
-			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
-			printf "[INFO] command: ${command}\n"
+		sensors=$(jq -r ".[${server_ip}][\"sensors\"] | length" /data/options.json)
+
+		for (( n=0; n<${sensors}; n++ ))
+		do 
+
+			sensor=$(jq -r ".[${server_ip}][\"sensors\"] | keys[${n}]" /data/options.json)
+			command=$(jq -r ".[${server_ip}][\"sensors\"][${sensor}]" /data/options.json)
+			printf "[INFO] 	sensor: ${sensor} -> command: ${command} \n"
+
 			value=$(${command})
-			printf "[INFO] value: ${value}\n"
+			printf "[INFO] 	value: ${value}\n"
 			json_data="{\"state\": \"${value}\" }"
-			printf "[INFO] json_data: '${json_data}'\n"
+			printf "[INFO] 	json_data: '${json_data}'\n"
 			url="http://supervisor/core/api/states/sensor.${sensor_name}"
-			printf "[INFO] url: ${url}\n"
+			printf "[INFO] 	url: ${url}\n"
 			curl -s -X POST -d "${json_data}" -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" "${url}"
-		fi
+			
+		done
 
 	done
 
@@ -37,3 +49,6 @@ do
 	sleep 60
 	
 done
+
+# 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
+# 			printf "[INFO] command: ${command}\n"

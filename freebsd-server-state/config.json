@@ -1,6 +1,6 @@
 {
   "name": "unix server state",
-  "version": "0.19",
+  "version": "0.20",
   "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
@@ -12,28 +12,25 @@
   "startup": "application",
   "boot": "auto",
   "options": { 
-	"server": "192.168.0.106",
-	"login": "root",
-	"password": "root",
-	"command1": "sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-1)}'",
-	"name1" : "server_cpu0_temp",
-	"command2": "sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-1)}'",
-	"name2" : "server_cpu1_temp",
-	"command3": "",
-	"name3" : "",
-	"command4": "",
-	"name4" : "",
-	"command5": "",
-	"name5" : ""
-	},
+	"servers": "
+	{
+		\"192.168.0.106\": {
+			\"login\": \"root\",
+			\"password\": \"root\",
+			\"sensors\": {
+				\"microserver_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\",
+				\"microserver_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
+			}
+		},
+		\"192.168.0.108\": {
+			\"login\": \"root\",
+			\"password\": \"root\",
+			\"sensors\": {
+				\"istorage_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\",
+				\"istorage_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
+			}
+		}
+	}"	},
   "schema": { 
-	"server": "str",
-	"login": "str",
-	"password": "str",
-	"command1": "str", "name1": "str",
-	"command2": "str", "name2": "str",
-	"command3": "str", "name3": "str",
-	"command4": "str", "name4": "str",
-	"command5": "str", "name5": "str"
-	}
+	"servers": "str"
 }
