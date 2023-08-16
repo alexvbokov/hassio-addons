@@ -22,7 +22,7 @@ do
 		printf "[INFO] server_ip: ${server_ip}\n"
 
 		ssh_login=$(jq -r ".[\"${server_ip}\"][\"login\"]" /data/options-unquoted.json)
-		ssh_pass=$(jq ".[\"${server_ip}\"][\"password\"]" /data/options-unquoted.json)
+		ssh_pass=$(jq -r ".[\"${server_ip}\"][\"password\"]" /data/options-unquoted.json)
 		printf "[INFO] login: ${ssh_login} password: ${ssh_pass} \n"
 
 		sensors=$(jq ".[\"${server_ip}\"][\"sensors\"] | length" /data/options-unquoted.json)
