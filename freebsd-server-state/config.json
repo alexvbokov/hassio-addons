@@ -13,24 +13,7 @@
   "boot": "auto",
   "options": 
   { 
-	"servers": "{
-		\"192.168.0.106\": {
-			\"login\": \"root\",
-			\"password\": \"root\",
-			\"sensors\": {
-				\"microserver_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\",
-				\"microserver_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
-			}
-		},
-		\"192.168.0.108\": {
-			\"login\": \"root\",
-			\"password\": \"root\",
-			\"sensors\": {
-				\"istorage_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\",
-				\"istorage_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
-			}
-		}
-	}"
+	"servers": "{}"
   },
   "schema": { 
 	"servers": "str"
