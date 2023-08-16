@@ -1,0 +1,24 @@
+{
+  "name": "freebsd server state",
+  "version": "1.34",
+  "slug": "freebsd_server_state",
+  "hassio_role": "default",
+  "init": "false",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "UNIX server state with ssh (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": { 
+	"login": "root",
+	"password": "root",
+	"command1": "sysctl -a | grep temperature | grep cpu.1"
+	},
+  "schema": { 
+	"client_id": "str",
+	"password": "str",
+	"command1": "str"
+	}
+}
