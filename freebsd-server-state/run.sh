@@ -18,7 +18,7 @@ do
 	for (( s=0; s<${server_count}; s++ ))
 	do 
 		
-		server_ip=$(jq "keys[${s}]" /data/options-unquoted.json)
+		server_ip=$(jq -r "keys[${s}]" /data/options-unquoted.json)
 		printf "[INFO] server_ip: ${server_ip}\n"
 
 		ssh_login=$(jq -r ".[${server_ip}][\"login\"]" /data/options-unquoted.json)
