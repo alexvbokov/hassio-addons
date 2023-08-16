@@ -3,7 +3,7 @@
 
 jq -r '.["servers"]' < /data/options.json > /data/options-unquoted.json
 printf "[INFO] /data/options.json is:"
-jq /data/options-unquoted.json 
+jq < /data/options-unquoted.json 
 
 # server_ip=$(jq -r ".server" /data/options.json)
 # ssh_login=$(jq -r ".login" /data/options.json)
