@@ -21,7 +21,7 @@ do
 		echo "[INFO] command: ${command}"
 		value=$(${command})
 		echo "[INFO] value: ${value}"
-		json_data='{"state": "${value}" }'
+		json_data="{\"state\": \"${value}\" }"
 		echo "[INFO] json_data: ${json_data}"
 		url="http://supervisor/core/api/states/${name1}"
 		echo "[INFO] url: ${url}"
