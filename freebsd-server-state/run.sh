@@ -17,7 +17,7 @@ do
 	echo "loop start..."
 
 	if [ ! -z "$name1" ]; then
-		command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${command_args}"
+		command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${command1}"
 		echo "[INFO] command: ${command}"
 	fi
 
