@@ -1,6 +1,6 @@
 {
   "name": "unix server state",
-  "version": "0.01",
+  "version": "0.02",
   "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
@@ -20,7 +20,7 @@
 	},
   "schema": { 
 	"server": "str",
-	"client_id": "str",
+	"login": "str",
 	"password": "str",
 	"command1": "str",
 	"name1": "str"
