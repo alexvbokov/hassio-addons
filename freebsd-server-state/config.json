@@ -1,6 +1,6 @@
 {
   "name": "unix server state",
-  "version": "0.20",
+  "version": "0.21",
   "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
@@ -11,7 +11,8 @@
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
-  "options": { 
+  "options": 
+  { 
 	"servers": "
 	{
 		\"192.168.0.106\": {
@@ -30,7 +31,9 @@
 				\"istorage_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
 			}
 		}
-	}"	},
+	}"	
+  },
   "schema": { 
 	"servers": "str"
+  }
 }
