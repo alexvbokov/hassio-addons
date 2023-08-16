@@ -23,7 +23,7 @@ do
 		echo "[INFO] value: ${value}"
 		json_data="{\"state\": \"${value}\" }"
 		echo "[INFO] json_data: ${json_data}"
-		url="http://supervisor/core/api/states/${name1}"
+		url="http://supervisor/core/api/states/sensor.${name1}"
 		echo "[INFO] url: ${url}"
 		curl_args="-s -X POST -d '${json_data}' -H \"Authorization: Bearer ${SUPERVISOR_TOKEN}\" -H \"Content-Type: application/json\" ${url}"
 		echo "[INFO] curl_args: ${curl_args}"
