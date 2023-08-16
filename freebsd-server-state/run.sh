@@ -21,18 +21,18 @@ do
 		server_ip=$(jq -r "keys[${s}]" /data/options-unquoted.json)
 		printf "[INFO] server_ip: ${server_ip}\n"
 
-		ssh_login=$(jq '.["${server_ip}"]["login"]' /data/options-unquoted.json)
-		ssh_pass=$(jq '.["${server_ip}"]["password"]' /data/options-unquoted.json)
+		ssh_login=$(jq ".[\"${server_ip}\"][\"login\"]" /data/options-unquoted.json)
+		ssh_pass=$(jq ".[\"${server_ip}\"][\"password\"]" /data/options-unquoted.json)
 		printf "[INFO] login: ${ssh_login} password: ${ssh_pass} \n"
 
-		sensors=$(jq '.["${server_ip}"]["sensors"] | length' /data/options-unquoted.json)
+		sensors=$(jq ".[\"${server_ip}\"][\"sensors\"] | length" /data/options-unquoted.json)
 
 		for (( n=0; n<${sensors}; n++ ))
 		do 
 
-			sensor=$(jq -r '.["${server_ip}"]["sensors"] | keys[${n}]' /data/options-unquoted.json)
+			sensor=$(jq -r ".[\"${server_ip}\"][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
 			printf "[INFO]    sensor: ${sensor}\n"
-			remote_command=$(jq -r '.["${server_ip}"]["sensors"]["${sensor}"]' /data/options-unquoted.json)
+			remote_command=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor}\"]" /data/options-unquoted.json)
 			printf "[INFO]    command: ${remote_command} \n"
 
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
