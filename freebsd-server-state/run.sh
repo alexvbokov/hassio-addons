@@ -35,7 +35,7 @@ do
 			remote_command=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor_name}\"]" /data/options-unquoted.json)
 			printf "[INFO]    command: ${remote_command} \n"
 
-			command="/usr/bin/sshpass -p '${ssh_pass}' /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
+			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[INFO] command: ${command}\n"
 
 			value=$(${command})
