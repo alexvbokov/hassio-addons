@@ -33,10 +33,10 @@ do
 			sensor_name=$(jq -r ".[\"${server_ip}\"][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
 			printf "[INFO]    sensor: ${sensor_name}\n"
 			remote_command=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor_name}\"]" /data/options-unquoted.json)
-			printf "[INFO]    command: ${remote_command} \n"
+			printf "[INFO]    remote_command: ${remote_command} \n"
 
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
-			printf "[INFO] command: ${command}\n"
+			printf "[INFO]    command: ${command}\n"
 
 			value=$(${command})
 			printf "[INFO]    value: ${value}\n"
@@ -50,7 +50,7 @@ do
 
 	done
 
-	printf "repeating in 60 sec...\n"
+	printf "\nrepeating in 60 sec...\n"
 	sleep 60
 	
 done
