@@ -13,8 +13,7 @@
   "boot": "auto",
   "options": 
   { 
-	"servers": "
-	{
+	"servers": "{
 		\"192.168.0.106\": {
 			\"login\": \"root\",
 			\"password\": \"root\",
@@ -31,7 +30,7 @@
 				\"istorage_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\"
 			}
 		}
-	}"	
+	}"
   },
   "schema": { 
 	"servers": "str"
