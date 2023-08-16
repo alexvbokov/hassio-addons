@@ -11,9 +11,11 @@
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
-  "options": 
-  { 
-	"servers": "{}"
+  "options": { 
+	"servers": "{
+			\"192.168.0.106\": {}
+			\"192.168.0.108\": {}
+	}"
   },
   "schema": { 
 	"servers": "str"
