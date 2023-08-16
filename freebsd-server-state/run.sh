@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 
 
-jq -r '.["seervers"]' < /data/options.json > /data/options-unquoted.json
+jq -r '.["servers"]' < /data/options.json > /data/options-unquoted.json
 printf "[INFO] /data/options.json is:"
 cat /data/options-unquoted.json 
 
