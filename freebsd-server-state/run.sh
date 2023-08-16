@@ -21,7 +21,7 @@ do
 		server_ip=$(jq -r "keys[${s}]" /data/options-unquoted.json)
 		printf "[INFO] server_ip: ${server_ip}\n"
 
-		ssh_login=$(jq ".[\"${server_ip}\"][\"login\"]" /data/options-unquoted.json)
+		ssh_login=$(jq -r ".[\"${server_ip}\"][\"login\"]" /data/options-unquoted.json)
 		ssh_pass=$(jq ".[\"${server_ip}\"][\"password\"]" /data/options-unquoted.json)
 		printf "[INFO] login: ${ssh_login} password: ${ssh_pass} \n"
 
