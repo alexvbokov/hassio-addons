@@ -17,8 +17,8 @@ do
 	echo "loop start..."
 
 	if [ ! -z "$name1" ]; then
-		echo "[INFO] command args: ${command1}"
-		value1=$(/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${command_args} )
+		command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${command_args}"
+		echo "[INFO] command: ${command}"
 	fi
 
 	echo "repeating in 60 sec..."
