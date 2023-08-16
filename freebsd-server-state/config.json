@@ -1,6 +1,6 @@
 {
   "name": "freebsd server state",
-  "version": "1.34",
+  "version": "0.01",
   "slug": "freebsd_server_state",
   "hassio_role": "default",
   "init": "false",
@@ -12,13 +12,17 @@
   "startup": "application",
   "boot": "auto",
   "options": { 
+	"server": "192.168.0.106",
 	"login": "root",
 	"password": "root",
-	"command1": "sysctl -a | grep temperature | grep cpu.1"
+	"command1": "sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-1)}'",
+	"name1" : "server_cpu0_temp"
 	},
   "schema": { 
+	"server": "str",
 	"client_id": "str",
 	"password": "str",
-	"command1": "str"
+	"command1": "str",
+	"name1": "str"
 	}
 }
