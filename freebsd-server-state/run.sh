@@ -3,7 +3,7 @@
 
 jq -r '.["servers"]' < /data/options.json > /data/options-unquoted.json
 printf "[INFO] /data/options.json is:"
-cat /data/options-unquoted.json 
+jq /data/options-unquoted.json 
 
 # server_ip=$(jq -r ".server" /data/options.json)
 # ssh_login=$(jq -r ".login" /data/options.json)
@@ -31,15 +31,16 @@ do
 		do 
 
 			sensor=$(jq -r ".[${server_ip}][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
+			printf "[INFO]    sensor: ${sensor}\n"
 			command=$(jq -r ".[${server_ip}][\"sensors\"][${sensor}]" /data/options-unquoted.json)
-			printf "[INFO] 	sensor: ${sensor} -> command: ${command} \n"
+			printf "[INFO]    command: ${command} \n"
 
 			value=$(${command})
-			printf "[INFO] 	value: ${value}\n"
+			printf "[INFO]    value: ${value}\n"
 			json_data="{\"state\": \"${value}\" }"
-			printf "[INFO] 	json_data: '${json_data}'\n"
+			printf "[INFO]    json_data: '${json_data}'\n"
 			url="http://supervisor/core/api/states/sensor.${sensor_name}"
-			printf "[INFO] 	url: ${url}\n"
+			printf "[INFO]    url: ${url}\n"
 			curl -s -X POST -d "${json_data}" -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" "${url}"
 			
 		done

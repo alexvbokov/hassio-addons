@@ -1,6 +1,6 @@
 {
   "name": "unix server state",
-  "version": "0.25",
+  "version": "0.26",
   "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
