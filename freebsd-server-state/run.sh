@@ -32,7 +32,7 @@ do
 
 			sensor=$(jq -r ".[${server_ip}][\"sensors\"] | keys[${n}]" /data/options-unquoted.json)
 			printf "[INFO]    sensor: ${sensor}\n"
-			command=$(jq -r ".[${server_ip}][\"sensors\"][${sensor}]" /data/options-unquoted.json)
+			command=$(jq -r ".[${server_ip}][\"sensors\"][\"${sensor}\"]" /data/options-unquoted.json)
 			printf "[INFO]    command: ${command} \n"
 
 			value=$(${command})
