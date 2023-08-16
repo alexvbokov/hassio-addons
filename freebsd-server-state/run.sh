@@ -25,7 +25,7 @@ do
 		echo "[INFO] json_data: ${json_data}"
 		url="http://supervisor/core/api/states/${name1}"
 		echo "[INFO] url: ${url}"
-		curl_args="-s -X POST -d \"${json_data}\" -H \"Authorization: Bearer ${SUPERVISOR_TOKEN}\" -H \"Content-Type: application/json\" ${url}"
+		curl_args="-s -X POST -d '${json_data}' -H \"Authorization: Bearer ${SUPERVISOR_TOKEN}\" -H \"Content-Type: application/json\" ${url}"
 		echo "[INFO] curl_args: ${curl_args}"
 		curl ${curl_args}
 	fi
