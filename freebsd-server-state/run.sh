@@ -17,7 +17,7 @@ do
 
 		remote_command=$(jq -r ".command${n}" /data/options.json)
 		sensor_name=$(jq -r ".name${n}" /data/options.json)
-		echo "[INFO] ${n} sensor_name: ${sensor_name} remote_command: ${remote_command}"
+		echo "\n[INFO] [=${n}=] sensor_name: ${sensor_name} remote_command: ${remote_command}"
 
 		if [ ! -z "$remote_command" ]; then
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
