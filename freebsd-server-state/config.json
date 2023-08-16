@@ -20,9 +20,9 @@
 	"command2": "sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-1)}'",
 	"name2" : "server_cpu1_temp",
 	"command3": "",
-	"name3" : ""
+	"name3" : "",
 	"command4": "",
-	"name4" : ""
+	"name4" : "",
 	"command5": "",
 	"name5" : ""
 	},
