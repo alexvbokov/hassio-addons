@@ -12,7 +12,7 @@
   "startup": "application",
   "boot": "auto",
   "options": { 
-	"servers": "{ \"106\" : {}, \"108\" : {} }"
+	"servers": "{ \"192.168.0.106\" : { \"login\" : \"root\",  \"password\" : \"root\" }, \"192.168.0.108\" : {} }"
   },
   "schema": { 
 	"servers": "str"
