@@ -1,7 +1,7 @@
 {
-  "name": "freebsd server state",
+  "name": "xNIX server state",
   "version": "0.01",
-  "slug": "freebsd_server_state",
+  "slug": "xNIX_server_state",
   "hassio_role": "default",
   "init": "false",
   "homeassistant_api": "true",
