@@ -16,9 +16,9 @@
 	"login": "root",
 	"password": "root",
 	"command1": "sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-1)}'",
-	"name1" : "server_cpu0_temp"
+	"name1" : "server_cpu0_temp",
 	"command2": "sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-1)}'",
-	"name2" : "server_cpu1_temp"
+	"name2" : "server_cpu1_temp",
 	"command3": "",
 	"name3" : ""
 	"command4": "",
