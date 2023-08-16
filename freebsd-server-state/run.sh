@@ -19,6 +19,8 @@ do
 	if [ ! -z "$name1" ]; then
 		command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${command1}"
 		echo "[INFO] command: ${command}"
+		value=$(${command})
+		echo "[INFO] value: ${value}"
 	fi
 
 	echo "repeating in 60 sec..."
