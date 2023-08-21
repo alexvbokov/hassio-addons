@@ -1,6 +1,6 @@
 {
   "name": "unix server state",
-  "version": "0.40",
+  "version": "0.41",
   "slug": "unix_server_state",
   "hassio_role": "default",
   "init": "false",
@@ -12,7 +12,7 @@
   "startup": "application",
   "boot": "auto",
   "options": { 
-	"servers": "{ \"192.168.0.106\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"microserver_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"microserver_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\" } }, \"192.168.0.108\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"istorage_cpu0_temp\": \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"istorage_cpu1_temp\": \"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\" } } }"
+	"servers": "{ \"192.168.0.106\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"microserver_cpu0_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\" : \"°C\", \"icon\":\"mdi:thermometer\" }, \"microserver_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } }, \"192.168.0.108\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"istorage_cpu0_temp\": { \"command\" : \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" }, \"istorage_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } } }"
   },
   "schema": { 
 	"servers": "str"
