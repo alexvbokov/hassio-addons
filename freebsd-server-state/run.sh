@@ -42,7 +42,7 @@ do
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[INFO]    command: ${command}\n"
 
-			value=$(${command})
+			value=$(${command}) || true
 			printf "[INFO]    value: ${value}\n"
 			json_data="{\"state\": \"${value}\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
 			printf "[INFO]    json_data: '${json_data}'\n"
