@@ -46,16 +46,14 @@ do
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[$datetime]    command: ${command}\n"
 
-			timeout=false
-			value=$(${command}) || timeout=true; true
+			value=$(${command}) || true
 			
-			if [ $timeout ]; then
-				printf "[$datetime]    unavailable\n"
-				json_data="{\"state\": \"unavailable\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
-			else
-				printf "[$datetime]    value: ${value}\n"
-				json_data="{\"state\": \"${value}\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
+			if [ "${value}" == "" ]; then 
+				value="unavailable"
 			fi
+
+			printf "[$datetime]    value: ${value}\n"
+			json_data="{\"state\": \"${value}\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
 			printf "[$datetime]    json_data: '${json_data}'\n"
 			url="http://supervisor/core/api/states/sensor.${sensor_name}"
 			printf "[$datetime]    url: ${url}\n"
