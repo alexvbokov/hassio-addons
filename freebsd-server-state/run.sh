@@ -43,7 +43,7 @@ do
 			icon=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor_name}\"][\"icon\"]" $servers_config)
 			printf "[$datetime]    remote_command: ${remote_command} \n"
 
-			command="/usr/bin/sshpass -p ${ssh_pass} timeout 10s /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
+			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[$datetime]    command: ${command}\n"
 
 			value=$(${command})
