@@ -46,9 +46,10 @@ do
 			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[$datetime]    command: ${command}\n"
 
-			value=$(${command}) || return 124
+			timeout=false
+			value=$(${command}) || timeout=true; true
 			
-			if [ $? -eq 124 ]; then
+			if [ timeout eq true ]; then
 				printf "[$datetime]    unavailable\n"
 				json_data="{\"state\": \"unavailable\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
 			else
