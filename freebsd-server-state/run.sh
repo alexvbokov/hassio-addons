@@ -49,7 +49,7 @@ do
 			timeout=false
 			value=$(${command}) || timeout=true; true
 			
-			if [ $timeout -eq true ]; then
+			if [ $timeout ]; then
 				printf "[$datetime]    unavailable\n"
 				json_data="{\"state\": \"unavailable\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
 			else
