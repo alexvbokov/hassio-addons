@@ -3,10 +3,7 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache tzdata jq openssh sshpass
-# RUN apk add --no-cache python3
-# RUN apk add --no-cache py-pip
-# RUN pip install requests 
+RUN apk add --no-cache tzdata jq openssh sshpass timeout
 WORKDIR /data
 
 # Copy data for add-on

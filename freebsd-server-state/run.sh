@@ -43,12 +43,18 @@ do
 			icon=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor_name}\"][\"icon\"]" $servers_config)
 			printf "[$datetime]    remote_command: ${remote_command} \n"
 
-			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
+			command="/usr/bin/sshpass -p ${ssh_pass} timeout 10s /usr/bin/ssh -o StrictHostKeyChecking=no ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[$datetime]    command: ${command}\n"
 
-			value=$(${command}) || true
-			printf "[$datetime]    value: ${value}\n"
-			json_data="{\"state\": \"${value}\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
+			value=$(${command})
+			
+			if [ $? -eq 255 ]; then
+				printf "[$datetime]    unavailable\n"
+				json_data="{\"state\": \"unavailable\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
+			else
+				printf "[$datetime]    value: ${value}\n"
+				json_data="{\"state\": \"${value}\", \"attributes\": {\"unit_of_measurement\": \"${unit}\", \"icon\": \"$icon\" } }"
+			fi
 			printf "[$datetime]    json_data: '${json_data}'\n"
 			url="http://supervisor/core/api/states/sensor.${sensor_name}"
 			printf "[$datetime]    url: ${url}\n"
