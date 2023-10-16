@@ -1,18 +1,18 @@
 {
-  "name": "unix server state",
-  "version": "0.51",
-  "slug": "unix_server_state",
+  "name": "unix box status",
+  "version": "0.52",
+  "slug": "unix_box_status",
   "hassio_role": "default",
   "init": "false",
   "homeassistant_api": "true",
   "hassio_api": "true",
   "hassio_role": "default",
-  "description": "xNIX server state by ssh (с) Alex Bokov",
+  "description": "xNIX box status by ssh (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
   "options": { 
-	"servers": "{ \"192.168.0.106\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"microserver_cpu0_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\" : \"°C\", \"icon\":\"mdi:thermometer\" }, \"microserver_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } }, \"192.168.0.108\" : { \"login\" : \"root\",  \"password\" : \"root\", \"sensors\": { \"istorage_cpu0_temp\": { \"command\" : \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" }, \"istorage_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } } }"
+	"servers": "{ \"192.168.0.106\" : { \"login\" : \"root\", \"sensors\": { \"microserver_cpu0_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\" : \"°C\", \"icon\":\"mdi:thermometer\" }, \"microserver_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } }, \"192.168.0.108\" : { \"login\" : \"root\",  \"sensors\": { \"istorage_cpu0_temp\": { \"command\" : \"sysctl -a | grep temperature | grep cpu.0 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" }, \"istorage_cpu1_temp\": { \"command\":\"sysctl -a | grep temperature | grep cpu.1 | awk '{print substr($2,1,length($2)-3)}'\", \"unit\":\"°C\", \"icon\":\"mdi:thermometer\" } } } }"
   },
   "schema": { 
 	"servers": "str"

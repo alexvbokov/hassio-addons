@@ -41,8 +41,8 @@ do
 		printf "[$datetime] server_ip: ${server_ip}\n"
 
 		ssh_login=$(jq -r ".[\"${server_ip}\"][\"login\"]" $servers_config)
-		ssh_pass=$(jq -r ".[\"${server_ip}\"][\"password\"]" $servers_config)
-		printf "[$datetime] login: ${ssh_login} password: ${ssh_pass} \n"
+#		ssh_pass=$(jq -r ".[\"${server_ip}\"][\"password\"]" $servers_config)
+		printf "[$datetime] login: ${ssh_login}\n"	#  password: ${ssh_pass} 
 
 		sensors=$(jq ".[\"${server_ip}\"][\"sensors\"] | length" $servers_config)
 
@@ -58,7 +58,8 @@ do
 			icon=$(jq -r ".[\"${server_ip}\"][\"sensors\"][\"${sensor_name}\"][\"icon\"]" $servers_config)
 			printf "[$datetime]    remote_command: ${remote_command} \n"
 
-			command="/usr/bin/sshpass -p ${ssh_pass} /usr/bin/ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${ssh_login}@${server_ip} ${remote_command}"
+			# 		 /usr/bin/sshpass -p ${ssh_pass} 
+			command="/usr/bin/ssh -i ${KEY_PATH}/autossh_ed25519 -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${ssh_login}@${server_ip} ${remote_command}"
 			printf "[$datetime]    command: ${command}\n"
 
 			value=$(${command}) || true
