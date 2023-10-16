@@ -1,6 +1,21 @@
 #!/usr/bin/with-contenv bashio
 
 
+# Generate key
+KEY_PATH=/data/ssh_keys
+if [ ! -d "$KEY_PATH" ]; then
+    echo "[INFO] Setup private key"
+    mkdir -p "$KEY_PATH"
+
+	ssh-keygen -t ed25519 -N "" -f "${KEY_PATH}/autossh_ed25519"
+else
+    echo "[INFO] Restore private_keys"
+fi
+
+echo "[INFO] public key is:"
+cat "${KEY_PATH}/autossh_ed25519.pub"
+
+
 options_json="/data/options.json"
 servers_config="/data/options-unquoted.json"
 
