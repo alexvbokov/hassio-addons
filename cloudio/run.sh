@@ -1,7 +1,6 @@
 #!/usr/bin/with-contenv bashio
 
-echo "cloud_io (c) Alex Bokov 2022"
-
+echo "cloud_io (c) Alex Bokov 2022-2024"
 
 # Generate key
 KEY_PATH=/data/ssh_keys
