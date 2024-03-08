@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bashio
 
+echo "cloud_io (c) Alex Bokov 2022"
+
+
 # Generate key
 KEY_PATH=/data/ssh_keys
 if [ ! -d "$KEY_PATH" ]; then
