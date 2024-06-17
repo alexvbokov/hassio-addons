@@ -166,7 +166,7 @@ while True:
     if check_precipitations():
         report_to_hassio()
 
-    while second() != 0:     # wait until minute start
+    while second() != 0 and minute() != 0:     # wait until hour start
 #       print(progress_bar[second() % 20],flush=True,end="")
         time.sleep(1)
     print()
