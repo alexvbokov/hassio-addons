@@ -47,7 +47,7 @@ supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 def report_to_hassio():
 
 
-    def report_precipitations( entity_id, friendly_name, value ):
+    def report_precipitations( entity_id, friendly_name, value, icon ):
         try:
             response = requests.post(
                 "http://supervisor/core/api/states/sensor."+entity_id,
@@ -74,13 +74,14 @@ def report_to_hassio():
             if weather_codes[i] in [ 0 ]:						icon = "mdi:weather-sunny"         	# clear sky
             if weather_codes[i] in [ 1,2,3 ]: 					icon = "mdi:weather-partly-cloudy" 	# few clouds
             if weather_codes[i] in [ 45,48 ]: 					icon = "mdi:weather-cloudy"        	# scattered clouds
-            if weather_codes[i] in [ 51,53,55,56,57 ]: 			icon = "mdi:weather-drizzle" 		# drizzle
+            if weather_codes[i] in [ 51,53,55,56,57 ]: 			icon = "mdi:weather-rainy" 			# drizzle
             if weather_codes[i] in [ 61,63,65,66,67,80,81,82 ]: icon = "mdi:weather-rainy"  		# shower rain
             if weather_codes[i] in [ 71,73,75,77,85,86 ]: 		icon = "mdi:weather-snowy"         	# snow
             if weather_codes[i] in [ 95,96,99 ]: 				icon = "mdi:weather-lightning"     	# thunderstorm
             if i == 0 :
-                report_precipitations( "precipitations", "precipitations", value )
-            report_precipitations( "precipitations"+str(i), dates[i], value )
+                report_precipitations( "precipitations", "precipitations", value, icon )
+            report_precipitations( "precipitations"+str(i), dates[i], value, icon )
+            print( icon )
 
 
 def hassio_family_is_home():

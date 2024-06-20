@@ -1,6 +1,6 @@
 {
   "name": "precipitation",
-  "version": "2.03",
+  "version": "2.04",
   "slug": "precipitation",
   "init": "false",
   "homeassistant_api": "true",
