@@ -1,9 +1,10 @@
-# rain & precipitations volume for hass.io (с) Alex Bokov 2021-2022
+# rain & precipitations volume for hass.io (с) Alex Bokov 2021-2024
 
 import os
 import sys
 import math
 import time
+from datetime import datetime
 import json
 import urllib.request
 import requests
@@ -23,7 +24,7 @@ def second():
     return time.localtime()[5]
 
 
-print( "precipitation (c)Alex Bokov 2021-2022", flush=True )
+print( "precipitation (c)Alex Bokov 2021-2024", flush=True )
 config = {}
 try:
     with open( '/data/options.json', 'r') as config_file:
@@ -36,7 +37,7 @@ print( timestamp() + " " + str(config), flush=True )
 precipitations_quantity = None
 precipitations_checked_at = None
 precipitations_since_home = 0       # amount since family was home
-weather_icons = ['','','','','','','','']
+weather_codes = ['','','','','','','','']
 dates = ['','','','','','','','']
 week_day = [ "пн","вт","ср","чт","пт","сб","вс" ]
 verbose = config['verbose']
@@ -70,15 +71,13 @@ def report_to_hassio():
 
         for i in range(8):
             value = round( precipitations_quantity[i], 1 )
-            if "01" in weather_icons[i]: icon = "mdi:weather-sunny"         # clear sky
-            if "02" in weather_icons[i]: icon = "mdi:weather-partly-cloudy" # few clouds
-            if "03" in weather_icons[i]: icon = "mdi:weather-cloudy"        # scattered clouds
-            if "04" in weather_icons[i]: icon = "mdi:weather-partly-cloudy" # broken clouds
-            if "09" in weather_icons[i]: icon = "mdi:weather-partly-rainy"  # shower rain
-            if "10" in weather_icons[i]: icon = "mdi:weather-rainy"         # rain
-            if "11" in weather_icons[i]: icon = "mdi:weather-lightning"     # thunderstorm
-            if "13" in weather_icons[i]: icon = "mdi:weather-snowy"         # snow
-            if "50" in weather_icons[i]: icon = "mdi:weather-fog"           # mist
+            if weather_codes[i] in [ 0 ]:						icon = "mdi:weather-sunny"         	# clear sky
+            if weather_codes[i] in [ 1,2,3 ]: 					icon = "mdi:weather-partly-cloudy" 	# few clouds
+            if weather_codes[i] in [ 45,48 ]: 					icon = "mdi:weather-cloudy"        	# scattered clouds
+            if weather_codes[i] in [ 51,53,55,56,57 ]: 			icon = "mdi:weather-drizzle" 		# drizzle
+            if weather_codes[i] in [ 61,63,65,66,67,80,81,82 ]: icon = "mdi:weather-rainy"  		# shower rain
+            if weather_codes[i] in [ 71,73,75,77,85,86 ]: 		icon = "mdi:weather-snowy"         	# snow
+            if weather_codes[i] in [ 95,96,99 ]: 				icon = "mdi:weather-lightning"     	# thunderstorm
             if i == 0 :
                 report_precipitations( "precipitations", "precipitations", value )
             report_precipitations( "precipitations"+str(i), dates[i], value )
@@ -120,28 +119,30 @@ def check_precipitations():
 
         family_is_home = hassio_family_is_home()
         lat, lng = hassio_get_lat_lng()
+        url = "https://api.open-meteo.com/v1/forecast"
+		params = {
+			"latitude": lat,
+			"longitude": lng,
+			"daily": ["weather_code", "precipitation_sum"],
+			"timezone": "Europe/Moscow",
+			"forecast_days": 8
+		}
 
         try:
-            weather = json.loads(urllib.request.urlopen("http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,hourly,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lng) + "&appid=" + config['api_key'] ).read())["daily"]
+            weather = requests.get( url, params ).json()["daily"]
             if family_is_home:
                 precipitations_since_home = 0
             else:
-                if "snow" in weather[0]:
-                    precipitations_since_home += weather[0]["snow"]
-                if "rain" in weather[0]:
-                    precipitations_since_home += weather[0]["rain"]
+            	precipitations_since_home += weather["precipitation_sum"][0]
         except:
             weather = {}
             precipitations_quantity = None
 
 
-        for i in range( len(weather) ):
-            weather_icons[ i ] = weather[i]["weather"][0]["icon"]
-            dates[i] = week_day[ time.localtime(weather[i]['dt'])[6] ]
-            if "snow" in weather[i]:
-                precipitations_quantity[ i ] += weather[i]["snow"]
-            if "rain" in weather[i]:
-                precipitations_quantity[ i ] += weather[i]["rain"]
+        for i in range(8):
+            weather_codes[ i ] = weather["weather_code"][i]
+            dates[i] = week_day[ datetime.strptime(weather['time'][i],'%Y-%m-%d').weekday() ]
+            precipitations_quantity[ i ] = weather["precipitation_sum"][i]
         print( timestamp() + str( precipitations_quantity ), flush=True )
     return ( precipitations_quantity is not None )
 
