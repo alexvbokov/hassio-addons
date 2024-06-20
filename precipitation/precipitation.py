@@ -120,7 +120,13 @@ def check_precipitations():
         family_is_home = hassio_family_is_home()
         lat, lng = hassio_get_lat_lng()
         url = "https://api.open-meteo.com/v1/forecast"
-		params = { "latitude": lat, "longitude": lng, "daily": ["weather_code", "precipitation_sum"], "timezone": "Europe/Moscow", "forecast_days": 8 }
+        params = {
+			"latitude": lat,
+			"longitude": lng,
+			"daily": ["weather_code", "precipitation_sum"],
+			"timezone": "Europe/Moscow",
+			"forecast_days": 8
+		}
 
         try:
             weather = requests.get( url, params ).json()["daily"]
