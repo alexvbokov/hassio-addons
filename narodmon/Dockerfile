@@ -4,8 +4,8 @@ FROM $BUILD_FROM
 ENV LANG C.UTF-8
 
 RUN apk add --no-cache python3
-RUN apk add --no-cache python3-pip
-RUN pip install requests 
+RUN apk add --no-cache py-pip
+RUN pip install --break-system-packages requests 
 WORKDIR /data
 
 # Copy data for add-on
