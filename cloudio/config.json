@@ -7,7 +7,7 @@
   "homeassistant_api": "true",
   "hassio_api": "true",
   "hassio_role": "default",
-  "description": "cloud.io help access hass.io from outside (с) Alex Bokov",
+  "description": "cloud.io help access your HomeAssistant from world (с) Alex Bokov",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "boot": "auto",
