@@ -49,7 +49,7 @@ do
 	if [ "$client_ssh" = true ]; then
 		ssh_control_port=$((client_id+2))
 		ssh_monitor_port=$((control_port+3))
-		command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=10 -o ServerAliveCountMax=2 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+		command_args="-M ${ssh_monitor_port} -R 0.0.0.0:${ssh_control_port}:${hassio_ip}:22 -N -q -o ServerAliveInterval=5 -o ServerAliveCountMax=1 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 		echo "[INFO] command args: ${command_args}"
 		/usr/bin/autossh ${command_args} &
 	fi
@@ -57,12 +57,12 @@ do
 	if [ "$router_webui" = true ]; then
 		router_webui_control_port=$((client_id+4))
 		router_webui_monitor_port=$((control_port+5))
-		command_args="-M ${router_webui_monitor_port} -R 0.0.0.0:${router_webui_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=10 -o ServerAliveCountMax=2 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+		command_args="-M ${router_webui_monitor_port} -R 0.0.0.0:${router_webui_control_port}:${router_ip}:80 -N -q -o ServerAliveInterval=5 -o ServerAliveCountMax=1 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 		echo "[INFO] command args: ${command_args}"
 		/usr/bin/autossh ${command_args} &
 	fi
 
-	command_args="-M ${monitor_port} -R 0.0.0.0:${control_port}:${hassio_ip}:8123 -N -q -o ServerAliveInterval=10 -o ServerAliveCountMax=2 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
+	command_args="-M ${monitor_port} -R 0.0.0.0:${control_port}:${hassio_ip}:8123 -N -q -o ServerAliveInterval=5 -o ServerAliveCountMax=1 ${cloud_username}@${cloud_hostname} -p ${cloud_ssh_port} -i ${KEY_PATH}/autossh_ed25519"
 	echo "[INFO] command args: ${command_args}"
 	/usr/bin/autossh ${command_args} || true
 	
