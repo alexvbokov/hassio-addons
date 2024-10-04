@@ -189,8 +189,8 @@ def average_for_day(tm):
         start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
 #         weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
 
-    print( timestamp() + " requesting average values for " + start_date, flush=True )	# datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
-	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lng, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
+    print( timestamp() + " requesting average values for " + start_date, flush=True )    # datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
+    weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lng, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 
     #print(json.dumps(weather_hourly, indent=4, sort_keys=True))
     temp_sigma = 0
@@ -200,15 +200,15 @@ def average_for_day(tm):
     # twelve_oclock_am = (tm // 60 // 60 // 24) * 60 * 60 * 24 + time.timezone
     for i in range(len(weather_hourly['time'])):
 #         if weather_hourly[i]["dt"] > twelve_oclock_am and weather_hourly[i]["dt"] - twelve_oclock_am < 60 * 60 * 24:
-		temp = weather_hourly['temperature_2m'][i]
-		sunny = 100 - weather_hourly['cloud_cover'][i]
-		hour = i			# datetime.datetime.fromtimestamp(weather_hourly[i]['dt']).hour
-		if hour >= 7 and hour < 23:
-			temp_sigma += temp
-			temp_hours += 1
-			if hour >= 10 and hour <= 14:
-				sunny_sigma += sunny
-				sunny_hours += 1
+        temp = weather_hourly['temperature_2m'][i]
+        sunny = 100 - weather_hourly['cloud_cover'][i]
+        hour = i            # datetime.datetime.fromtimestamp(weather_hourly[i]['dt']).hour
+        if hour >= 7 and hour < 23:
+            temp_sigma += temp
+            temp_hours += 1
+            if hour >= 10 and hour <= 14:
+                sunny_sigma += sunny
+                sunny_hours += 1
     day_average_temp = round((temp_sigma / temp_hours) * 10) / 10
     day_average_sunny = round((sunny_sigma / sunny_hours))/100
     print( timestamp() + " %f, %f -> average_temp %2.1f, average_sunny %2.2f" % ( lat, lon, day_average_temp, day_average_sunny ), flush=True )
