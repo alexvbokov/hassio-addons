@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2024 v.159 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2024 v.newapi / " + version )
 print( description )
 
 try:
