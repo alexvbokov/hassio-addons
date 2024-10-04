@@ -1,6 +1,6 @@
 {
   "name": "valokaari",
-  "version": "1.162",
+  "version": "1.163",
   "slug": "valokaari",
   "init": "false",
   "homeassistant_api": "true",
