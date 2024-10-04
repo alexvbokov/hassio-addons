@@ -183,10 +183,10 @@ def average_for_day(tm):
     lat, lon = hassio_get_lat_lng()
 #     api_key = config["api_key"]
     if tm <= time.time():
-		start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
+        start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
 #         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
     else:
-		start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
+        start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
 #         weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
 
     print( timestamp() + " requesting average values for " + start_date, flush=True )	# datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
