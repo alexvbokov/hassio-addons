@@ -209,7 +209,7 @@ def house_heating_on_off( onoff ):
 		print( timestamp() + " switching house_heating " + { True:"on", False:"off" }[onoff], flush=True )
 		hassio_switch( config["house_heating"], onoff )
 	else:
-		print( timestamp() + " ups, house heating season is off. not turning house_heating on, turning off", flush=True )
+		print( timestamp() + " ups, house heating season is off. not switching house_heating on, switching off", flush=True )
 		hassio_switch( config["house_heating"], False )
 
 def check_house():
