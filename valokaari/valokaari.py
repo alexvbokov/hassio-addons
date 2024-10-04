@@ -21,7 +21,7 @@ def hour( tm=None ):
 	if tm is None:
 		return time.localtime()[3]
 	else:
-		return math.floor( ( ( tm - time.timezone ) // (60*60) ) % 24 )
+		return tm[3]
 def minute():
 	return time.localtime()[4]
 def second():
