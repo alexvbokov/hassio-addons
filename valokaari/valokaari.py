@@ -248,20 +248,20 @@ def check_house():
 					print(timestamp() + " just started. calculating values...", flush=True )
 					just_started = False;
 
-# 				try:
-				average_temp, average_sunny = average_for_day(time.time()) # today
+				try:
+					average_temp, average_sunny = average_for_day(time.time()) # today
 # 					print(timestamp() + " morning_temp = %.2f, house_temp = %.2f, hour = %d, morning_at = %d, average_temp = %.2f" % (morning_temp,house_temp,hour(),hour(morning_at),average_temp) )
-				print(timestamp() + " morning_temp = ", morning_temp )
-				print(timestamp() + " house_temp = ", house_temp )
-				print(timestamp() + " hour = ", hour() )
-				print(timestamp() + " morning_at = ", hour(morning_at) )
-				print(timestamp() + " average_temp = ", average_temp, flush=True )
-				k = ( morning_temp - house_temp ) / ( ( hour() - hour(morning_at) ) * (( morning_temp + house_temp )/2 - average_temp ) )
-				print(timestamp() + " calculated K = " + str(k), flush=True)
-# 				except urllib.error.URLError:
-# 					print(timestamp() + " request timeout", flush=True )
-# 				except:
-# 					print(timestamp() + " failed calculating K", flush=True )
+					print(timestamp() + " house_morning_temp = ", house_morning_temp )
+					print(timestamp() + " house_temp = ", house_temp )
+					print(timestamp() + " hour = ", hour() )
+					print(timestamp() + " morning_at = ", hour(morning_at) )
+					print(timestamp() + " average_temp = ", average_temp, flush=True )
+					k = ( morning_temp - house_temp ) / ( ( hour() - hour(morning_at) ) * (( morning_temp + house_temp )/2 - average_temp ) )
+					print(timestamp() + " calculated K = " + str(k), flush=True)
+				except urllib.error.URLError:
+					print(timestamp() + " request timeout", flush=True )
+				except:
+					print(timestamp() + " failed calculating K", flush=True )
 
 				try:
 					average_temp, average_sunny = average_for_day(time.time()+60*60*24) # tomorrow
