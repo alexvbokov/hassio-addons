@@ -181,25 +181,17 @@ def estimated_delta():
         return 8
 def average_for_day(tm):
     lat, lon = hassio_get_lat_lng()
-#     api_key = config["api_key"]
     if tm <= time.time():
         start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
-#         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
     else:
         start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
-#         weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
-
     print( timestamp() + " requesting average values for " + start_date, flush=True )    # datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
-    weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lng, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
-
-    #print(json.dumps(weather_hourly, indent=4, sort_keys=True))
+    weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
     temp_sigma = 0
     temp_hours = 0  # за сколько часов
     sunny_sigma = 0
     sunny_hours = 0
-    # twelve_oclock_am = (tm // 60 // 60 // 24) * 60 * 60 * 24 + time.timezone
     for i in range(len(weather_hourly['time'])):
-#         if weather_hourly[i]["dt"] > twelve_oclock_am and weather_hourly[i]["dt"] - twelve_oclock_am < 60 * 60 * 24:
         temp = weather_hourly['temperature_2m'][i]
         sunny = 100 - weather_hourly['cloud_cover'][i]
         hour = i            # datetime.datetime.fromtimestamp(weather_hourly[i]['dt']).hour
