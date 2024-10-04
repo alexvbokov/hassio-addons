@@ -181,10 +181,7 @@ def estimated_delta():
 		return 8
 def average_for_day(tm):
 	lat, lon = hassio_get_lat_lng()
-	if tm <= time.time():
-		start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
-	else:
-		start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
+	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
 	print( timestamp() + " requesting average values for " + start_date, flush=True )	# datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
 	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 	temp_sigma = 0
@@ -212,7 +209,7 @@ def house_heating_on_off( onoff ):
 		print( timestamp() + " switching house_heating " + { True:"on", False:"off" }[onoff], flush=True )
 		hassio_switch( config["house_heating"], onoff )
 	else:
-		print( timestamp() + " ups, house heating season is off. turning house_heating to off", flush=True )
+		print( timestamp() + " ups, house heating season is off. not turning house_heating on, turning off", flush=True )
 		hassio_switch( config["house_heating"], False )
 
 def check_house():
