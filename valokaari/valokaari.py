@@ -256,8 +256,12 @@ def check_house():
 				print(timestamp() + " hour =", hour() )
 				print(timestamp() + " morning_at =", hour(morning_at) )
 				print(timestamp() + " average_temp =", average_temp, flush=True )
-				k = ( house_morning_temp - house_temp ) / ( ( hour() - hour(morning_at) ) * (( house_morning_temp + house_temp )/2 - average_temp ) )
-				print(timestamp() + " calculated K =", k, flush=True)
+				if hour() != hour(morning_at):
+					k = ( house_morning_temp - house_temp ) / ( ( hour() - hour(morning_at) ) * (( house_morning_temp + house_temp )/2 - average_temp ) )
+					print(timestamp() + " calculated K =", k, flush=True)
+				else:
+					print(timestamp() + " can't calculate K, just started", flush=True)
+				
 # 				except urllib.error.URLError:
 # 					print(timestamp() + " request timeout", flush=True )
 # 				except:
