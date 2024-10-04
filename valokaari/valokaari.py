@@ -37,7 +37,7 @@ except IOError:
     version = "v.None"
     description = ""
 
-print( "valokaari (c)Alex Bokov 2021/2022 v.156 / " + version )
+print( "valokaari (c)Alex Bokov 2021/2024 v.159 / " + version )
 print( description )
 
 try:
@@ -181,29 +181,34 @@ def estimated_delta():
         return 8
 def average_for_day(tm):
     lat, lon = hassio_get_lat_lng()
-    api_key = config["api_key"]
-    print( timestamp() + " requesting average values for " + datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y"), flush=True )
+#     api_key = config["api_key"]
     if tm <= time.time():
-        weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
+		start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
+#         weather_hourly = json.loads(urllib.request.urlopen( "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key + "&dt=" + str(round((tm // 60 // 60 // 24) * 60 * 60 * 24)) ).read())["hourly"]
     else:
-        weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
+		start_date = datetime.datetime.fromtimestamp(tm+60*60*24).strftime("%Y-%m-%d")
+#         weather_hourly = json.loads(urllib.request.urlopen( "http://api.openweathermap.org/data/2.5/onecall?exclude=current,minutely,daily,alerts&units=metric&lat=" + str(lat) + "&lon=" + str(lon) + "&appid=" + api_key ).read())["hourly"]
+
+    print( timestamp() + " requesting average values for " + start_date, flush=True )	# datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
+	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", { "latitude": lat, "longitude": lng, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
+
     #print(json.dumps(weather_hourly, indent=4, sort_keys=True))
     temp_sigma = 0
     temp_hours = 0  # за сколько часов
     sunny_sigma = 0
     sunny_hours = 0
-    twelve_oclock_am = (tm // 60 // 60 // 24) * 60 * 60 * 24 + time.timezone
-    for i in range(len(weather_hourly)):
-        if weather_hourly[i]["dt"] > twelve_oclock_am and weather_hourly[i]["dt"] - twelve_oclock_am < 60 * 60 * 24:
-            temp = weather_hourly[i]['temp']
-            sunny = 100 - weather_hourly[i]['clouds']
-            hour = datetime.datetime.fromtimestamp(weather_hourly[i]['dt']).hour
-            if hour >= 7 and hour < 23:
-                temp_sigma += temp
-                temp_hours += 1
-                if hour >= 10 and hour <= 14:
-                    sunny_sigma += sunny
-                    sunny_hours += 1
+    # twelve_oclock_am = (tm // 60 // 60 // 24) * 60 * 60 * 24 + time.timezone
+    for i in range(len(weather_hourly['time'])):
+#         if weather_hourly[i]["dt"] > twelve_oclock_am and weather_hourly[i]["dt"] - twelve_oclock_am < 60 * 60 * 24:
+		temp = weather_hourly['temperature_2m'][i]
+		sunny = 100 - weather_hourly['cloud_cover'][i]
+		hour = i			# datetime.datetime.fromtimestamp(weather_hourly[i]['dt']).hour
+		if hour >= 7 and hour < 23:
+			temp_sigma += temp
+			temp_hours += 1
+			if hour >= 10 and hour <= 14:
+				sunny_sigma += sunny
+				sunny_hours += 1
     day_average_temp = round((temp_sigma / temp_hours) * 10) / 10
     day_average_sunny = round((sunny_sigma / sunny_hours))/100
     print( timestamp() + " %f, %f -> average_temp %2.1f, average_sunny %2.2f" % ( lat, lon, day_average_temp, day_average_sunny ), flush=True )
@@ -213,18 +218,6 @@ def average_for_day(tm):
 def house_heating_on_off( onoff ):
     if hassio_house_heating_season():
         hassio_switch( config["house_heating"], onoff )
-#         state = { True:"on", False:"off" }[onoff]
-#         print(timestamp() + " turn " + config["house_heating"] + " " + state, flush=True )
-#         supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-#         print( "http://supervisor/core/api/services/switch/turn_"+state, flush=True )
-#         print( 'headers={ "Authorization": "Bearer '+supervisor_token+'", "content-type": "application/json" }', flush=True )
-#         print( 'data=json.dumps({ "entiry_id": "switch.house_heating" })', flush=True  )
-#         try:
-#             response = requests.post( "http://supervisor/core/api/services/switch/turn_"+state, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "entity_id": "switch.house_heating" }) )
-#             print( response )
-#         except:
-#             print( timestamp() + " failed switching " + config["house_heating"], flush=True  )
-        # report_to_hassio( config["house_heating"], { True:"on", False:"off" }[onoff], "House heating", "", "" )
 def check_house():
     global house_temp
     global house_heater_on
@@ -346,9 +339,5 @@ while True:
     report_to_hassio( "sensor.valokaari_house_morning_temp", house_morning_temp, "morning temp", "°C", "")
     report_to_hassio( "sensor.valokaari_house_warm_up", house_warm_up, "warm up", "%", "mdi:radiator")  # initial
 
-#    progress_bar = "  ··°°ººooooºº°°··  "
     while second() != 0:     # wait until minute start
-#        print(progress_bar[second() % 20],flush=True,end="")
         time.sleep(1)
-#    print("")
-#    time.sleep(1)
