@@ -1,0 +1,33 @@
+{
+  "name": "camera light sensor",
+  "version": "0.1",
+  "slug": "camlightsensor",
+  "init": "false",
+  "homeassistant_api": "true",
+  "hassio_api": "true",
+  "hassio_role": "default",
+  "description": "camera light sensor - light sensor based on crop of cctv camera shot (с) Alex Bokov",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "options": { 
+    "x_start": 0.5,
+    "x_end": 0.99,
+    "y_start": 0.8,
+    "y_end": 0.99,
+    "scan_interval": 30,
+    "sensor": "sensor.cctv_light",
+    "camera_url": "http://192.168.0.96/ISAPI/Streaming/channels/101/picture",
+    "userpass": "bokov:bokov1972"
+  },
+  "schema": { 
+    "x_start": "float",
+    "x_end": "float",
+    "y_start": "float",
+    "y_end": "float",
+    "scan_interval": "int",
+    "sensor": "str",
+    "camera_url": "str",
+    "userpass": "str"
+  }
+}
