@@ -1,13 +1,10 @@
 import os
-import sys
 import datetime
 import time
 import json
-import math
 import urllib.request
 import requests
 import cv2
-from requests.auth import HTTPDigestAuth
 import numpy as np
 import base64
 
@@ -72,24 +69,6 @@ def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
 
 
 def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_end ):
-
-# 	try:
-# 		response = requests.get(camera_url, auth=HTTPDigestAuth(userpass.split(":")[0], userpass.split(":")[1]), headers={"Accept": "image/jpeg"}, timeout=10, stream=True)
-# 		original_img = cv2.imdecode(np.frombuffer(response.content, np.uint8), cv2.IMREAD_COLOR)
-# 		if original_img is None:
-# 			print( timestamp(), ' original_img in None, kinda was timeout' )
-# 	except urllib.error.URLError as error:
-# 		print( timestamp(), ' request '+camera_url, error.reason)
-# 		original_img = None
-# 	except ConnectionResetError as error:
-# 		print( timestamp(), ' request '+camera_url, error.reason)
-# 		original_img = None
-# 	except:
-# 		print( timestamp(), ' request '+camera_url+' other reason')
-# 		original_img = None
-# 
-# 	if original_img is None: 
-# 		return -1
 
     request = urllib.request.Request(camera_url)
     base64_auth = base64.b64encode(userpass.encode('ascii')).decode('ascii')	# Кодирование логина и пароля в формат Base64 для HTTP заголовка 'Authorization'
