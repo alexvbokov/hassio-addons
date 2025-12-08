@@ -10,7 +10,7 @@ WORKDIR /data
 
 # Copy data for add-on
 COPY run.sh /
-COPY valokaari.py /
+COPY camera_light_sensor.py /
 COPY config.json /
 RUN chmod a+x /run.sh
 
