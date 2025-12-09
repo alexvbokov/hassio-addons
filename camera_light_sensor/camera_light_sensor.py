@@ -63,8 +63,8 @@ print( json.dumps( config, indent=4 ), flush=True )
 
 
 def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
-    supervisor_token = "SUPERVISOR_TOKEN"
-#     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+#     supervisor_token = "SUPERVISOR_TOKEN"
+    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
         response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
     except:
