@@ -1,6 +1,6 @@
 {
   "name": "camera light sensor",
-  "version": "0.18",
+  "version": "0.19",
   "slug": "camlightsensor",
   "init": "false",
   "homeassistant_api": "true",
@@ -16,6 +16,8 @@
     "y_start": 0.8,
     "y_end": 0.99,
     "scan_interval": 30,
+    "dusk": 50,
+    "dark": 10,
     "sensor": "sensor.cctv_light",
     "camera_url": "http://192.168.0.96/ISAPI/Streaming/channels/101/picture",
     "userpass": "bokov:bokov1972"
@@ -26,6 +28,8 @@
     "y_start": "float",
     "y_end": "float",
     "scan_interval": "int",
+    "dusk": "int",
+    "dark": "int",
     "sensor": "str",
     "camera_url": "str",
     "userpass": "str"
