@@ -129,8 +129,8 @@ while True:
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
     if light_value is not None:
         report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dusk", ["off","on"][ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dark", ["off","on"][ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dusk", str(["off","on"][ light_value <= config["dusk"] ]), "cctv light dusk", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dark", str(["off","on"][ light_value <= config["dark"] ]), "cctv light dark", "", "mdi:weather-sunset" )
 
         print( timestamp(), "reported", config["sensor"], round(light_value), flush=True )
         
