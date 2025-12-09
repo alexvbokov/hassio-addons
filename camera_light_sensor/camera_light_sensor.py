@@ -63,8 +63,8 @@ print( json.dumps( config, indent=4 ), flush=True )
 
 
 def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
-    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-#     supervisor_token = "SUPERVISOR_TOKEN"
+    supervisor_token = "SUPERVISOR_TOKEN"
+#     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
     try:
         response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
     except:
@@ -83,16 +83,6 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     except Exception as e:
         print( timestamp() + f"image download error: {e}", flush=True )
         return None
-
-#     # 2. Преобразование байтов изображения в формат массива NumPy, понятный OpenCV
-#     # Преобразуем байты в массив numpy
-#     np_array = np.frombuffer(image_bytes, np.uint8)
-#     # Декодируем массив numpy в изображение OpenCV (BGR формат)
-#     img_cv2 = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
-# 
-#     if img_cv2 is None or img_cv2.size == 0:
-#         print("Ошибка: Не удалось декодировать изображение. Проверьте URL или формат изображения.")
-#         return None
 
     try:
         img = Image.open(BytesIO(image_bytes))  # Pillow сам поймёт, что это JPEG
@@ -129,8 +119,8 @@ while True:
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
     if light_value is not None:
         report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dusk", str(["off","on"][ light_value <= config["dusk"] ]), "cctv light dusk", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dark", str(["off","on"][ light_value <= config["dark"] ]), "cctv light dark", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
 
         print( timestamp(), "reported", config["sensor"], round(light_value), flush=True )
         
