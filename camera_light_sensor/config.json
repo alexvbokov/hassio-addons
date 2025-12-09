@@ -1,6 +1,6 @@
 {
   "name": "camera light sensor",
-  "version": "0.15",
+  "version": "0.16",
   "slug": "camlightsensor",
   "init": "false",
   "homeassistant_api": "true",

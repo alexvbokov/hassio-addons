@@ -79,7 +79,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
         with urllib.request.urlopen(request) as response:
             image_bytes = response.read()
     except Exception as e:
-        print( timestamp() + f"image download error: {e}" )
+        print( timestamp() + f"image download error: {e}", flush=True )
         return None
 
 #     # 2. Преобразование байтов изображения в формат массива NumPy, понятный OpenCV
@@ -95,16 +95,13 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     try:
         img = Image.open(BytesIO(image_bytes))  # Pillow сам поймёт, что это JPEG
     except Exception as e:
-        print( timestamp() + f"can't open JPEG: {e}" )
+        print( timestamp() + f"can't open JPEG: {e}", flush=True )
         return None
-
-    # Приводим к RGB (на случай, если камера отдаёт YUV-JPEG или что-то редкое)
-    img = img.convert("RGB")
-    # Сразу получаем numpy-массив [H, W, 3]
-    img_np = np.array(img)
+    
+    img = img.convert("RGB")	# Приводим к RGB (на случай, если камера отдаёт YUV-JPEG или что-то редкое)
+    img_np = np.array(img)		# Сразу получаем numpy-массив [H, W, 3]
 
     height, width, _ = img_np.shape
-        
     x_start_px = int(width * x_start)    # Преобразование относительных долей в абсолютные пиксели
     x_end_px = int(width * x_end)
     y_start_px = int(height * y_start)
@@ -116,7 +113,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     ]
 
     if cropped_img is None or cropped_img.size == 0:
-        print( timestamp() + f"empty image. before crop: {width}x{height}. crop to: X={x_start_px}:{x_end_px}, Y={y_start_px}:{y_end_px}")
+        print( timestamp() + f"empty image. before crop: {width}x{height}. crop to: X={x_start_px}:{x_end_px}, Y={y_start_px}:{y_end_px}", flush=True)
         return None
 
     gray_image = cropped_img.mean(axis=2).astype(np.uint8)
@@ -130,6 +127,8 @@ while True:
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
     if light_value is not None:
         report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:light")
+        print( timestamp() + "reported", config["sensor"], round(light_value), flush=True)
+        
 
     while second() % config["scan_interval"] != 0:
         time.sleep(1)
