@@ -4,7 +4,6 @@ import time
 import json
 import urllib.request
 import requests
-import cv2
 import numpy as np
 import base64
 from io import BytesIO
