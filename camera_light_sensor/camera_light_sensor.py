@@ -126,8 +126,8 @@ while True:
     time.sleep(1)
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
     if light_value is not None:
-        report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:light")
-        print( timestamp(), "reported", config["sensor"], round(light_value), flush=True)
+        report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
+        print( timestamp(), "reported", config["sensor"], round(light_value), flush=True )
         
 
     while second() % config["scan_interval"] != 0:
