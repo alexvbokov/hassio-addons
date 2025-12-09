@@ -61,8 +61,8 @@ print( json.dumps( config, indent=4 ), flush=True )
 
 
 def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
-#     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
-    supervisor_token = "SUPERVISOR_TOKEN"
+    supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+#     supervisor_token = "SUPERVISOR_TOKEN"
     try:
         response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
     except:
@@ -79,7 +79,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
         with urllib.request.urlopen(request) as response:
             image_bytes = response.read()
     except Exception as e:
-        print(f"Ошибка при скачивании изображения: {e}")
+        print( timestamp() + f"image download error: {e}" )
         return None
 
 #     # 2. Преобразование байтов изображения в формат массива NumPy, понятный OpenCV
@@ -95,7 +95,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     try:
         img = Image.open(BytesIO(image_bytes))  # Pillow сам поймёт, что это JPEG
     except Exception as e:
-        print(f"Не удалось открыть JPEG: {e}")
+        print( timestamp() + f"can't open JPEG: {e}" )
         return None
 
     # Приводим к RGB (на случай, если камера отдаёт YUV-JPEG или что-то редкое)
@@ -116,8 +116,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     ]
 
     if cropped_img is None or cropped_img.size == 0:
-        print(f"Ошибка: Область кадрирования пуста. Размеры до кропа: {width}x{height}.")
-        print(f"Координаты пикселей: X={x_start_px}:{x_end_px}, Y={y_start_px}:{y_end_px}")
+        print( timestamp() + f"empty image. before crop: {width}x{height}. crop to: X={x_start_px}:{x_end_px}, Y={y_start_px}:{y_end_px}")
         return None
 
     gray_image = cropped_img.mean(axis=2).astype(np.uint8)
