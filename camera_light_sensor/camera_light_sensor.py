@@ -114,6 +114,8 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
     return np.mean(gray_image)
 
 
+count = 0
+print( "\n" + timestamp(), end="", flash=True )
 while True:
     time.sleep(1)
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
@@ -122,7 +124,11 @@ while True:
         report_to_hassio( config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
         report_to_hassio( config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
 
-        print( timestamp(), "reported", config["sensor"], round(light_value), flush=True )
+		count += 1
+		if count >= 50:
+	        print( "\n" + timestamp(), config["sensor"], round(light_value), end="", flush=True )
+	    else 
+	        print( round(light_value), end="", flush=True )
         
 
     while second() % config["scan_interval"] != 0:
