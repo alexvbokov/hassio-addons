@@ -127,7 +127,7 @@ while True:
         count += 1
         if count >= 50:
             print( "\n" + timestamp(), config["sensor"], round(light_value), end="", flush=True )
-        else 
+        else:
             print( round(light_value), end="", flush=True )
         
 
