@@ -115,7 +115,7 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
 
 
 count = 0
-print( "\n" + timestamp(), end="", flash=True )
+print( "\n" + timestamp(), end="", flush=True )
 while True:
     time.sleep(1)
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
