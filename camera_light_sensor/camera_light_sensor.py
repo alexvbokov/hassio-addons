@@ -124,11 +124,11 @@ while True:
         report_to_hassio( config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
         report_to_hassio( config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
 
-		count += 1
-		if count >= 50:
-	        print( "\n" + timestamp(), config["sensor"], round(light_value), end="", flush=True )
-	    else 
-	        print( round(light_value), end="", flush=True )
+        count += 1
+        if count >= 50:
+            print( "\n" + timestamp(), config["sensor"], round(light_value), end="", flush=True )
+        else 
+            print( round(light_value), end="", flush=True )
         
 
     while second() % config["scan_interval"] != 0:
