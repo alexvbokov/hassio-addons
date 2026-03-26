@@ -46,11 +46,13 @@ config = {
     "sensor": "sensor.cctv_light",
     "dusk": 50,
     "dark": 10,
+    "dimmable_max": 50,
+    "dimmable_min": 10,
     "camera_url": "http://192.168.0.96/ISAPI/Streaming/channels/101/picture",
     "userpass": "bokov:bokov1972"
   }
 
-print( "camera light sensor (c)Alex Bokov 2025 " + version )
+print( "camera light sensor (c)Alex Bokov 2025/2026 " + version )
 print( description )
 
 try:
@@ -123,6 +125,8 @@ while True:
         report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
         report_to_hassio( config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
         report_to_hassio( config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dimmable_max", config["dimmable_max"], "dimmable max", "", "mdi:weather-sunset" )
+        report_to_hassio( config["sensor"]+"_dimmable_min", config["dimmable_min"], "dimmable min", "", "mdi:weather-sunset" )
 
         count += 1
         if count >= 50:
