@@ -43,7 +43,7 @@ config = {
     "y_start": 0,
     "y_end": 0.16,
     "scan_interval": 10,
-    "sensor": "sensor.cctv_light",
+    "sensor": "cctv_light",
     "dusk": 50,
     "dark": 10,
     "dimmable_max": 50,
@@ -64,12 +64,33 @@ print( json.dumps( config, indent=4 ), flush=True )
 
 
 
-def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
-#     supervisor_token = "SUPERVISOR_TOKEN"
+def report_to_hassio(entity_id: str, state: str, friendly_name: str = "", icon: str = "", device_class: str = ""):
+
     supervisor_token = os.environ["SUPERVISOR_TOKEN"]
+
+    attributes = {"friendly_name": friendly_name}
+    if icon:
+        attributes["icon"] = icon
+    if device_class:
+        attributes["device_class"] = device_class
+
+    payload = {
+        "state": state,          # обязательно "on" или "off"
+        "attributes": attributes
+    }
+
     try:
-        response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
-    except:
+#         response = requests.post( "http://supervisor/core/api/states/"+entity_id, headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" }, data=json.dumps({ "state": value, "attributes": {"friendly_name": friendly_name, "unit_of_measurement": unit, "icon": icon } }) )
+        response = requests.post(
+            f"http://supervisor/core/api/states/{entity_id}",
+            headers={
+                "Authorization": f"Bearer {supervisor_token}",
+                "Content-Type": "application/json"
+            },
+            json=payload,                    # лучше использовать json= вместо data + json.dumps
+            timeout=10
+        )
+        response.raise_for_status()   except:
         print( timestamp() + " failed reporting to hassio", value, flush=True )
 
 
@@ -92,8 +113,8 @@ def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_en
         print( timestamp() + f"can't open JPEG: {e}", flush=True )
         return None
     
-    img = img.convert("RGB")	# Приводим к RGB (на случай, если камера отдаёт YUV-JPEG или что-то редкое)
-    img_np = np.array(img)		# Сразу получаем numpy-массив [H, W, 3]
+    img = img.convert("RGB")    # Приводим к RGB (на случай, если камера отдаёт YUV-JPEG или что-то редкое)
+    img_np = np.array(img)        # Сразу получаем numpy-массив [H, W, 3]
 
     height, width, _ = img_np.shape
     x_start_px = int(width * x_start)    # Преобразование относительных долей в абсолютные пиксели
@@ -122,11 +143,53 @@ while True:
     time.sleep(1)
     light_value = cctv_camera_light_value( config["camera_url"], config["userpass"], config["x_start"], config["x_end"], config["y_start"], config["y_end"] )
     if light_value is not None:
-        report_to_hassio( config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dimmable_max", config["dimmable_max"], "dimmable max", "", "mdi:weather-sunset" )
-        report_to_hassio( config["sensor"]+"_dimmable_min", config["dimmable_min"], "dimmable min", "", "mdi:weather-sunset" )
+#         report_to_hassio( "sensor."+config["sensor"], round(light_value), "cctv light", "", "mdi:weather-sunset" )
+#         report_to_hassio( "binary_sensor."+config["sensor"]+"_dusk", { True:"on", False:"off" }[ light_value <= config["dusk"] ], "cctv light dusk", "", "mdi:weather-sunset" )
+#         report_to_hassio( "binary_sensor."+config["sensor"]+"_dark", { True:"on", False:"off" }[ light_value <= config["dark"] ], "cctv light dark", "", "mdi:weather-sunset" )
+#         report_to_hassio( "sensor."+config["sensor"]+"_dimmable_max", config["dimmable_max"], "dimmable max", "", "mdi:weather-sunset" )
+#         report_to_hassio( "sensor."+config["sensor"]+"_dimmable_min", config["dimmable_min"], "dimmable min", "", "mdi:weather-sunset" )
+
+        report_to_hassio(
+            entity_id=f"sensor.{config['sensor']}",
+            state=round( light_value ),
+            friendly_name="cctv light",
+            icon="mdi:weather-sunset",
+            device_class="illuminance"
+        )
+
+        dusk_value = light_value <= config["dusk"]
+        report_to_hassio(
+            entity_id=f"binary_sensor.{config['sensor']}_dusk",
+            state="on" if dusk_value else "off",
+            friendly_name="cctv light dusk",
+            icon="mdi:weather-sunset",
+            device_class="illuminance"
+        )
+        dark_value = light_value <= config["dark"]
+        report_to_hassio(
+            entity_id=f"binary_sensor.{config['sensor']}_dark",
+            state="on" if dark_value else "off",
+            friendly_name="cctv light dark",
+            icon="mdi:weather-sunset",
+            device_class="illuminance"
+        )
+
+        report_to_hassio(
+            entity_id=f"sensor.{config['sensor']}_dimmable_max",
+            state=config["dimmable_max"],
+            friendly_name="cctv light dimmable max",
+            icon="mdi:weather-sunset",
+            device_class="illuminance"
+        )
+        report_to_hassio(
+            entity_id=f"sensor.{config['sensor']}_dimmable_min",
+            state=config["dimmable_min"],
+            friendly_name="cctv light dimmable min",
+            icon="mdi:weather-sunset",
+            device_class="illuminance"
+        )
+
+
 
         count += 1
         if count >= 50:
