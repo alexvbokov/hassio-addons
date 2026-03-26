@@ -91,8 +91,11 @@ def report_to_hassio(entity_id: str, state: str, friendly_name: str = "", icon: 
             timeout=10
         )
         response.raise_for_status()
-    except:
-        print( timestamp() + " failed reporting to hassio", payload, flush=True )
+    except requests.exceptions.HTTPError as http_err:
+        print(timestamp() + f" HTTP Error reporting {entity_id}: {http_err} | Status: {response.status_code}", flush=True)
+    except Exception as e:
+        print(timestamp() + f" Failed reporting to hassio {entity_id}: {e}", flush=True)#     except:
+#         print( timestamp() + " failed reporting to hassio", payload, flush=True )
 
 
 def cctv_camera_light_value( camera_url, userpass, x_start, x_end, y_start, y_end ):
