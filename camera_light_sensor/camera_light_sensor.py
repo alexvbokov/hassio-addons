@@ -90,7 +90,8 @@ def report_to_hassio(entity_id: str, state: str, friendly_name: str = "", icon: 
             json=payload,                    # лучше использовать json= вместо data + json.dumps
             timeout=10
         )
-        response.raise_for_status()   except:
+        response.raise_for_status()
+    except:
         print( timestamp() + " failed reporting to hassio", value, flush=True )
 
 
