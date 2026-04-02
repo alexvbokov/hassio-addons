@@ -26,7 +26,7 @@
     "will_come_tomorrow": "input_boolean.will_come_tomorrow",
     "group_family": "group.family",
     "climate": "climate.house_min_temp",
-    "api_key":"8f093e433c0c2b70df025f186097d63d"
+    "api_key":"8f093e433c0c2b70df025f186097d63d",
     "proxy":"socks5://192.168.0.3:9090"
   },
   "schema": { 
@@ -45,7 +45,7 @@
     "will_come_tomorrow": "str",
     "group_family": "str",
     "climate": "str",
-    "api_key":"str"
+    "api_key":"str",
     "proxy":"str"
   }
 }
