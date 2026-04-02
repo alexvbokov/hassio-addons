@@ -189,7 +189,7 @@ def average_for_day(tm):
 	lat, lon = hassio_get_lat_lng()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
 	print( timestamp() + " requesting average values for " + start_date, flush=True )	# datetime.datetime.fromtimestamp(tm).strftime("%d-%b-%Y")
-	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", proxies=proxies, { "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
+	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", proxies=proxies, params={ "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 	temp_sigma = 0
 	temp_hours = 0  # за сколько часов
 	sunny_sigma = 0
