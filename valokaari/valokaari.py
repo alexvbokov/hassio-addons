@@ -48,7 +48,7 @@ except IOError:
 print( json.dumps( config, indent=4 ), flush=True )
 
 
-config_house_delta_temp = 8
+config_house_delta_temp = 0
 
 morning_at = time.localtime()
 house_temp = None						   # current temp
@@ -61,10 +61,13 @@ average_temp = None						 # outside average 7:00-23:00
 house_heater_on = False
 
 
-proxies = {
-    "http": config['proxy'],
-    "https": config['proxy']
-}
+if config['proxy'] and config['proxy'].strip():          # если строка не пустая и не состоит из пробелов
+    proxies = {
+        "http": config['proxy'],
+        "https": config['proxy']
+    }
+else:
+    proxies = None
 
 
 def hassio_get_lat_lng():
@@ -184,7 +187,7 @@ def estimated_delta():
 			day_length = config["nightstart_minutes"] - config["daystart_minutes"]
 			return round(delta_temp * (day_length / delta_time) * 100 ) / 100
 	else:
-		return 0
+		return config_house_delta_temp
 def average_for_day(tm):
 	lat, lon = hassio_get_lat_lng()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
