@@ -245,8 +245,12 @@ def check_house():
 		except urllib.error.URLError:
 			print(timestamp() + " request timeout", flush=True )
 			average_temp = None
-		except:
-			average_temp = None
+		except Exception as e:     # ← вот сюда пишем ошибку
+			print(timestamp() + " НЕОЖИДАННАЯ ОШИБКА при запросе погоды", flush=True)
+			print(f"   → Тип ошибки: {type(e).__name__}")
+			print(f"   → Сообщение: {e}")
+			print("   → Полный трейсбек:")
+			traceback.print_exc()			average_temp = None
 
 		house_delta_temp = estimated_delta()
 		house_target_temp = round( tomorrows_temp() + house_delta_temp, 1)
