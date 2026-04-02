@@ -194,7 +194,7 @@ def average_for_day(tm):
 	print( timestamp() + " requesting average values for " + start_date, flush=True )
 	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", proxies=proxies, params={ "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 
-	print( timestamp() + json.dumps( weather_hourly, separators=(',', ': '), ensure_ascii=False).replace("],", "[,\n]"), flush=True )
+	print( json.dumps( weather_hourly, separators=(',', ': '), ensure_ascii=False).replace("],", "[,\n]"), flush=True )
 
 	temp_sigma = 0
 	temp_hours = 0  # за сколько часов
