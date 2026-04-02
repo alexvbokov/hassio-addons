@@ -1,6 +1,6 @@
 {
   "name": "valokaari",
-  "version": "1.175",
+  "version": "1.176",
   "slug": "valokaari",
   "init": "false",
   "homeassistant_api": "true",
@@ -27,6 +27,7 @@
     "group_family": "group.family",
     "climate": "climate.house_min_temp",
     "api_key":"8f093e433c0c2b70df025f186097d63d"
+    "proxy":"socks5://192.168.0.3:9090"
   },
   "schema": { 
     "min_temp": "float",
@@ -45,5 +46,6 @@
     "group_family": "str",
     "climate": "str",
     "api_key":"str"
+    "proxy":"str"
   }
 }
