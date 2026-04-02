@@ -250,7 +250,8 @@ def check_house():
 			print(f"   → Тип ошибки: {type(e).__name__}")
 			print(f"   → Сообщение: {e}")
 			print("   → Полный трейсбек:")
-			traceback.print_exc()			average_temp = None
+			traceback.print_exc()
+			average_temp = None
 
 		house_delta_temp = estimated_delta()
 		house_target_temp = round( tomorrows_temp() + house_delta_temp, 1)
