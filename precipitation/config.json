@@ -1,6 +1,6 @@
 {
   "name": "precipitation",
-  "version": "2.05",
+  "version": "2.1",
   "slug": "precipitation",
   "init": "false",
   "homeassistant_api": "true",
@@ -12,10 +12,12 @@
   "boot": "auto",
   "options": {
 	"api_key": "8f093e433c0c2b70df025f186097d63d==",
-    "verbose": true
+    "verbose": true,
+    "proxy":"socks5://192.168.0.3:9090"
   },
   "schema": {
     "api_key": "str",
-    "verbose": "bool"
+    "verbose": "bool",
+    "proxy":"str"
   }
 }

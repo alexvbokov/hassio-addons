@@ -44,6 +44,15 @@ verbose = config['verbose']
 supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 
 
+if config['proxy'] and config['proxy'].strip():          # если строка не пустая и не состоит из пробелов
+    proxies = {
+        "http": config['proxy'],
+        "https": config['proxy']
+    }
+else:
+    proxies = None
+    
+
 def report_to_hassio():
 
 
@@ -130,7 +139,7 @@ def check_precipitations():
 		}
 
         try:
-            weather = requests.get( url, params ).json()["daily"]
+            weather = requests.get( url, proxies=proxies, params=params ).json()["daily"]
             if family_is_home:
                 precipitations_since_home = 0
             else:

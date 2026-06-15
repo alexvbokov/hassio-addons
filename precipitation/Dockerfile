@@ -5,7 +5,7 @@ ENV LANG C.UTF-8
 
 RUN apk add --no-cache python3
 RUN apk add --no-cache py-pip
-RUN pip install --break-system-packages requests 
+RUN pip install --break-system-packages requests PySocks
 WORKDIR /data
 
 # Copy data for add-on
