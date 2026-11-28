@@ -39,7 +39,7 @@ except IOError:
 	version = "v.None"
 	description = ""
 
-print(platform.python_version())
+print( platform.python_version() )
 print( "valokaari (c)Alex Bokov 2021/2024 v.newapi / " + version )
 print( description )
 
@@ -73,16 +73,18 @@ else:
     proxies = None
 
 
-def hassio_get_lat_lng():
+def hassio_get_location_info():
 	supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 	try:
 		response = requests.get( "http://supervisor/core/api/states/zone.Home", headers={ "Authorization": "Bearer "+supervisor_token, "content-type": "application/json" } ).text
 		lat = json.loads(response)["attributes"]["latitude"]
 		lng = json.loads(response)["attributes"]["longitude"]
+		tz = json.loads(response)["attributes"]["time_zone"]
 	except:
 		lat = 55.7558
 		lng = 37.6173	   # moscow center
-	return lat, lng
+		tz = "Europe/Moscow"
+	return lat, lng, tz
 def report_to_hassio( entity_id, value, friendly_name, unit, icon ):
 	supervisor_token = os.environ["SUPERVISOR_TOKEN"]
 	try:
@@ -251,8 +253,9 @@ def estimated_delta():
 
 
 def average_for_day(tm):
-	lat, lon = hassio_get_lat_lng()
+	lat, lon, tz = hassio_get_location_info()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
+	print( timestamp() + " location: ", lat, "," lon, ", ", tz, flush=True )
 	print( timestamp() + " requesting average values for " + start_date, flush=True )
 	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", proxies=proxies, params={ "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 
