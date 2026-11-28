@@ -51,13 +51,13 @@ print( json.dumps( config, indent=4 ), flush=True )
 config_house_delta_temp = 0
 
 morning_at = time.localtime()
-house_temp = None						   # current temp
-house_morning_temp = None				   # at 7.00
-just_started = True						 # recalс all values in check_house()
-house_delta_temp = config_house_delta_temp  # temperature delta during a day
-house_warm_up = 100						 # house warm-up at 7.00 in %, should be -> 100%
+house_temp = None						# current temp
+house_morning_temp = None				# at 7.00
+just_started = True						# recalс all values in check_house()
+house_delta_temp = config_house_delta_temp	# temperature delta during a day
+house_warm_up = 100						# house warm-up at 7.00 in %, should be -> 100%
 house_target_temp = None
-average_temp = None						 # outside average 7:00-23:00
+average_temp = None						# outside average 7:00-23:00
 house_heater_on = False
 
 
@@ -252,8 +252,7 @@ def estimated_delta():
 def average_for_day(tm):
 	lat, lon, tz = hassio_get_location_info()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
-	print( timestamp() + " location: ", lat, ",", lon, ", ", tz, flush=True )
-	print( timestamp() + " requesting average values for " + start_date, flush=True )
+	print( timestamp() + " requesting average values for ", lat, lon, tz, start_date, flush=True )
 	weather_hourly = requests.get( "https://api.open-meteo.com/v1/forecast", proxies=proxies, params={ "latitude": lat, "longitude": lon, "hourly": ["temperature_2m", "cloud_cover"], "start_date": start_date, "end_date": start_date } ).json()["hourly"]
 
 	print( json.dumps( weather_hourly, separators=(',', ': '), ensure_ascii=False).replace("],", "],\n"), flush=True )
@@ -327,7 +326,7 @@ def check_house():
 					just_started = False;
 
 				try:
-					average_temp, average_sunny = average_for_day(time.time()) # today
+# 					average_temp, average_sunny = average_for_day(time.time()) # today
 					print(timestamp() + " house_morning_temp =", house_morning_temp )
 					print(timestamp() + " house_temp =", house_temp )
 					print(timestamp() + " hour =", hour() )
