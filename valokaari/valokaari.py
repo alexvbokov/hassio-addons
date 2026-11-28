@@ -194,7 +194,7 @@ def estimated_delta():
 def average_for_day(tm):
 	lat, lon, tz = hassio_get_location_info()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
-	print( timestamp() + " requesting average values for ", lat, lon, tz, start_date, flush=True )
+	print( timestamp() + " requesting average values for", lat, lon, tz, start_date, flush=True )
 
 	headers = { "User-Agent": "valokaari (c)Alex Bokov v%s alexvbokov@gmail.com" % version }	# mandatory info: app name & email 
 
@@ -220,6 +220,7 @@ def average_for_day(tm):
 		details = entry["data"]["instant"]["details"]
 		temp = details["air_temperature"]
 		sunny = 100.0 - details.get("cloud_area_fraction", 100.0)
+		print( "%d:00" % time.hour, details, end="" )
 
 		if 7 <= time.hour < 23:
 			temp_sigma += temp
@@ -228,13 +229,14 @@ def average_for_day(tm):
 				sunny_sigma += sunny
 				sunny_hours += 1
 
+	print()
 	if temp_hours == 0:
 		raise ValueError(f"No data for {start_date}")
 
 	day_average_temp = round((temp_sigma / temp_hours) * 10) / 10
 	day_average_sunny = round(sunny_sigma / sunny_hours) / 100 if sunny_hours else 0.0
 
-	print(timestamp() + " got average values for %f, %f -> average_temp %2.1f, average_sunny %2.2f" % (lat, lon, day_average_temp, day_average_sunny), flush=True)
+	print(timestamp() + " got average_temp %2.1f, average_sunny %2.2f" % (day_average_temp, day_average_sunny), flush=True)
 
 	return day_average_temp, day_average_sunny
 
