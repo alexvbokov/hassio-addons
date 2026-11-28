@@ -221,7 +221,7 @@ def average_for_day(tm):
 		details = entry["data"]["instant"]["details"]
 		temp = details["air_temperature"]
 		sunny = 100.0 - details.get("cloud_area_fraction", 100.0)
-		print( "%d:00 %f %f" % (time.hour, details["air_temperature"], details["cloud_area_fraction"]), end=";" )
+		print( "%d:00 %d1.1 %d1.1" % (time.hour, details["air_temperature"], details["cloud_area_fraction"]), end=";" )
 
 		if 7 <= time.hour < 23:
 			temp_sigma += temp
