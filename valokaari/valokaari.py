@@ -193,7 +193,7 @@ def estimated_delta():
 		return config_house_delta_temp
 def average_for_day(tm):
 	lat, lon, tz = hassio_get_location_info()
-start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
+	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
 	print( timestamp() + " requesting average values for ", lat, lon, tz, start_date, flush=True )
 
 	headers = { "User-Agent": "valokaari (c)Alex Bokov v%s alexvbokov@gmail.com" % version }	# mandatory info: app name & email 
