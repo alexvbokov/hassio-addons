@@ -201,7 +201,7 @@ def average_for_day(tm):
 	url = "https://api.met.no/weatherapi/locationforecast/2.0/compact"
 	params = { "lat": round(lat, 4), "lon": round(lon, 4) }    # не больше 4 знаков после запятой
 
-	r = requests.get(url, headers=headers, params=params, proxies=proxies, timeout=15)
+	r = requests.get(url, headers=headers, params=params, timeout=15)		# proxies=proxies
 	r.raise_for_status()
 	data = r.json()
 
