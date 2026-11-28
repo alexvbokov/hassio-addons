@@ -9,8 +9,6 @@ import math
 import urllib.request
 import requests
 import threading
-import platform			# for python version
-
 
 
 def timestamp(seconds=None):
@@ -39,8 +37,7 @@ except IOError:
 	version = "v.None"
 	description = ""
 
-print( platform.python_version() )
-print( "valokaari (c)Alex Bokov 2021/2024 v.newapi / " + version )
+print( "valokaari (c)Alex Bokov 2021/2024/2026 v.api.met.no / " + version )
 print( description )
 
 try:
