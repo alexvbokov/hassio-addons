@@ -9,6 +9,8 @@ import math
 import urllib.request
 import requests
 import threading
+import platform			# for python version
+
 
 
 def timestamp(seconds=None):
@@ -37,6 +39,7 @@ except IOError:
 	version = "v.None"
 	description = ""
 
+print(platform.python_version())
 print( "valokaari (c)Alex Bokov 2021/2024 v.newapi / " + version )
 print( description )
 
@@ -188,6 +191,65 @@ def estimated_delta():
 			return round(delta_temp * (day_length / delta_time) * 100 ) / 100
 	else:
 		return config_house_delta_temp
+# def average_for_day(tm):
+# 	lat, lon = hassio_get_lat_lng()
+# 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
+# 	print(timestamp() + " requesting average values for " + start_date, flush=True)
+# 
+# 	headers = {
+# 		"User-Agent": "HomeAssistant/valokaari alexvbokov@gmail.com"  # обязательно укажи своё имя + email/сайт
+# 	}
+# 
+# 	url = "https://api.met.no/weatherapi/locationforecast/2.0/compact"
+# 	params = {
+# 		"lat": round(lat, 4),   # не больше 4 знаков после запятой
+# 		"lon": round(lon, 4)
+# 	}
+# 
+# 	r = requests.get(url, headers=headers, params=params, proxies=proxies, timeout=15)
+# 	r.raise_for_status()
+# 	data = r.json()
+# 
+# 	timeseries = data["properties"]["timeseries"]
+# 
+# 	temp_sigma = 0.0
+# 	temp_hours = 0
+# 	sunny_sigma = 0.0
+# 	sunny_hours = 0
+# 
+# 	for entry in timeseries:
+# 		t = entry["time"]          # "2026-11-28T10:00:00Z"
+# 		if not t.startswith(start_date):
+# 			continue
+# 
+# 		# час в UTC (можно прибавить смещение, если нужно локальное время)
+# 		hour = int(t[11:13])
+# 
+# 		details = entry["data"]["instant"]["details"]
+# 		temp = details["air_temperature"]
+# 		cloud = details.get("cloud_area_fraction", 100.0)  # %
+# 		sunny = 100.0 - cloud
+# 
+# 		if 7 <= hour < 23:
+# 			temp_sigma += temp
+# 			temp_hours += 1
+# 			if 10 <= hour <= 14:
+# 				sunny_sigma += sunny
+# 				sunny_hours += 1
+# 
+# 	if temp_hours == 0:
+# 		raise ValueError(f"No data for {start_date}")
+# 
+# 	day_average_temp = round((temp_sigma / temp_hours) * 10) / 10
+# 	day_average_sunny = round(sunny_sigma / sunny_hours) / 100 if sunny_hours else 0.0
+# 
+# 	print(timestamp() + " got average values for %f, %f -> average_temp %2.1f, average_sunny %2.2f" % (
+# 		lat, lon, day_average_temp, day_average_sunny), flush=True)
+# 
+# 	return day_average_temp, day_average_sunny
+
+
+
 def average_for_day(tm):
 	lat, lon = hassio_get_lat_lng()
 	start_date = datetime.datetime.fromtimestamp(tm).strftime("%Y-%m-%d")
