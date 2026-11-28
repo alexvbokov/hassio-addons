@@ -212,7 +212,7 @@ def average_for_day(tm):
 	sunny_sigma = 0.0
 	sunny_hours = 0
 
-	print("{")
+	print( "{", end="" )
 	for entry in timeseries:
 		time = datetime.datetime.fromisoformat(entry["time"].replace("Z", "+00:00")).astimezone(ZoneInfo(tz)) # "2026-11-28T10:00:00Z" -> datetime
 		if time.date() != datetime.datetime.fromtimestamp(tm).date():
@@ -221,7 +221,7 @@ def average_for_day(tm):
 		details = entry["data"]["instant"]["details"]
 		temp = details["air_temperature"]
 		sunny = 100.0 - details.get("cloud_area_fraction", 100.0)
-		print( "%d:00 " % time.hour, details["air_temperature"], details["cloud_area_fraction"], end=";" )
+		print( "%d:00 %f %f" % (time.hour, details["air_temperature"], details["cloud_area_fraction"]), end=";" )
 
 		if 7 <= time.hour < 23:
 			temp_sigma += temp
@@ -230,7 +230,7 @@ def average_for_day(tm):
 				sunny_sigma += sunny
 				sunny_hours += 1
 
-	print("}")
+	print( "}" )
 	if temp_hours == 0:
 		raise ValueError(f"No data for {start_date}")
 
